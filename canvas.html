@@ -31,7 +31,7 @@ ctx.fillRect(0,0,1000,600);
 function drawPt(x,y)
 {
 	ctx.fillStyle = "#000000";
-	ctx.fillRect(x,y,5,5);
+	ctx.fillRect(x-3,y-3,6,6);
 }
 function drawXyPt(dcpx,dcpy)
 {
@@ -86,13 +86,13 @@ function maindraw()
 	for(tmp=0;tmp<8;tmp++)
 	{
 		tmp1 = xArr[tmp]*1.0-cameraX*1.0;
-		tmp2 = zArr[tmp]*1.0;
+		tmp2 = zArr[tmp]*1.0+cameraZ*1.0;
 		xDispArr[tmp] = tmp1 / tmp2;
 	}
 	for(tmp=0;tmp<8;tmp++)
 	{
 		tmp1 = yArr[tmp]*1.0-cameraY*1.0;
-		tmp2 = zArr[tmp]*1.0;
+		tmp2 = zArr[tmp]*1.0+cameraZ*1.0;
 		yDispArr[tmp] = tmp1 / tmp2;
 	}
 	for(tmp=0;tmp<8;tmp++)
@@ -107,7 +107,7 @@ function test()
 {
 	cameraX = cameraX + 0.03;
 	cameraY = cameraY + 0.03;
-	cameraZ = cameraZ + 0.03;
+	cameraZ = cameraZ + 0.01;
 	setTimeout(test,40);
 }
 setTimeout(test,40);
