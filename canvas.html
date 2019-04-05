@@ -43,9 +43,11 @@ function drawXyPt(dcpx,dcpy)
 }
 function lineConnect(x1,y1,x2,y2)
 {
+	ctx.beginPath();
 	ctx.moveTo(x1,y1);
 	ctx.lineTo(x2,y2);
 	ctx.stroke();
+	ctx.closePath();
 }
 //drawXyPt(3,3);
 //drawXyPt(-3,3);
@@ -88,9 +90,9 @@ var lineArr=new Array(0,1,1,2,2,3,3,4);
 setTimeout(maindraw,1);
 function maindraw()
 {
-	ctx.clearRect(0,0,1000,600);
+	ctx.clearRect(0,0,canvas.width,canvas.height);
 	ctx.fillStyle = "#ffffff";
-	ctx.fillRect(0,0,1000,600);
+	ctx.fillRect(0,0,canvas.width,canvas.height);
 	for(tmp=0;tmp<8;tmp++)
 	{
 		tmp1 = xArr[tmp]*1.0-cameraX*1.0;
