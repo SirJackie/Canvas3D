@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<style>
+html,body{
+	height:100%;
+	width:100%;
+}
+body{
+	padding:0;
+	margin:0;
+	border:0;
+}
+body{
+	background:grey;
+}
+</style>
+</head>
+
+<body>
+<center>
+<canvas width="1000" height="600" id="canvas"></canvas>
+</center>
+<script>
+var c = document.getElementById("canvas");
+var ctx = c.getContext("2d");
+ctx.fillStyle = "#ffffff";
+ctx.fillRect(0,0,1000,600);
+function drawPt(x,y)
+{
+	ctx.fillStyle = "#000000";
+	ctx.fillRect(x,y,5,5);
+}
+function drawXyPt(dcpx,dcpy)
+{
+	dcpx*=50;
+	dcpy*=50;
+	dcpx+=500;
+	dcpy=300-dcpy;
+	drawPt(dcpx,dcpy);
+}
+//drawXyPt(3,3);
+//drawXyPt(-3,3);
+//drawXyPt(3,-3);
+//drawXyPt(-3,-3);
+cameraX = 0.00;
+cameraY = 0.00;
+cameraZ = 0.00;
+var xArr=new Array();
+xArr[0] = 1;
+xArr[1] = 5;
+xArr[2] = 5;
+xArr[3] = 1;
+xArr[4] = 1;
+xArr[5] = 5;
+xArr[6] = 5;
+xArr[7] = 1;
+var yArr=new Array();
+yArr[0] = 1;
+yArr[1] = 1;
+yArr[2] = 5;
+yArr[3] = 5;
+yArr[4] = 1;
+yArr[5] = 1;
+yArr[6] = 5;
+yArr[7] = 5;
+var zArr=new Array();
+zArr[0] = 1;
+zArr[1] = 1;
+zArr[2] = 1;
+zArr[3] = 1;
+zArr[4] = 3;
+zArr[5] = 3;
+zArr[6] = 3;
+zArr[7] = 3;
+var xDispArr=new Array();
+var yDispArr=new Array();
+setTimeout(maindraw,1);
+function maindraw()
+{
+	ctx.clearRect(0,0,1000,600);
+	ctx.fillStyle = "#ffffff";
+	ctx.fillRect(0,0,1000,600);
+	for(tmp=0;tmp<8;tmp++)
+	{
+		tmp1 = xArr[tmp]*1.0-cameraX*1.0;
+		tmp2 = zArr[tmp]*1.0;
+		xDispArr[tmp] = tmp1 / tmp2;
+	}
+	for(tmp=0;tmp<8;tmp++)
+	{
+		tmp1 = yArr[tmp]*1.0-cameraY*1.0;
+		tmp2 = zArr[tmp]*1.0;
+		yDispArr[tmp] = tmp1 / tmp2;
+	}
+	for(tmp=0;tmp<8;tmp++)
+	{
+		drawXyPt(xDispArr[tmp],yDispArr[tmp]);
+	}
+	setTimeout(maindraw,40);
+}
+</script>
+<script>
+function test()
+{
+	cameraX = cameraX + 0.03;
+	cameraY = cameraY + 0.03;
+	cameraZ = cameraZ + 0.03;
+	setTimeout(test,40);
+}
+setTimeout(test,40);
+</script>
+</body>
+</html>
