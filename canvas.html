@@ -110,15 +110,18 @@ function maindraw()
 		drawXyPt(xDispArr[tmp],yDispArr[tmp]);
 	}
 	//lineConnect
-	tmpx1=xDispArr[0]*50;
-	tmpy1=yDispArr[0]*50;
-	tmpx1+=500;
-	tmpy1=300-tmpy1;
-	tmpx2=xDispArr[1]*50;
-	tmpy2=yDispArr[1]*50;
-	tmpx2+=500;
-	tmpy2=300-tmpy2;
-	lineConnect(tmpx1,tmpy1,tmpx2,tmpy2);
+	for(tmp=0;tmp<lineArr.length;tmp+=2)
+	{
+		tmpx1=xDispArr[lineArr[tmp]]*50;
+		tmpy1=yDispArr[lineArr[tmp]]*50;
+		tmpx1+=500;
+		tmpy1=300-tmpy1;
+		tmpx2=xDispArr[lineArr[tmp+1]]*50;
+		tmpy2=yDispArr[lineArr[tmp+1]]*50;
+		tmpx2+=500;
+		tmpy2=300-tmpy2;
+		lineConnect(tmpx1,tmpy1,tmpx2,tmpy2);
+	}
 	setTimeout(maindraw,40);
 }
 </script>
