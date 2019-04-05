@@ -41,6 +41,12 @@ function drawXyPt(dcpx,dcpy)
 	dcpy=300-dcpy;
 	drawPt(dcpx,dcpy);
 }
+function lineConnect(x1,y1,x2,y2)
+{
+	ctx.moveTo(x1,y1);
+	ctx.lineTo(x2,y2);
+	ctx.stroke();
+}
 //drawXyPt(3,3);
 //drawXyPt(-3,3);
 //drawXyPt(3,-3);
@@ -77,6 +83,8 @@ zArr[6] = 3;
 zArr[7] = 3;
 var xDispArr=new Array();
 var yDispArr=new Array();
+var lineArr=new Array(0,1,1,2,2,3,3,4);
+
 setTimeout(maindraw,1);
 function maindraw()
 {
@@ -99,6 +107,16 @@ function maindraw()
 	{
 		drawXyPt(xDispArr[tmp],yDispArr[tmp]);
 	}
+	//lineConnect
+	tmpx1=xDispArr[0]*50;
+	tmpy1=yDispArr[0]*50;
+	tmpx1+=500;
+	tmpy1=300-tmpy1;
+	tmpx2=xDispArr[1]*50;
+	tmpy2=yDispArr[1]*50;
+	tmpx2+=500;
+	tmpy2=300-tmpy2;
+	lineConnect(tmpx1,tmpy1,tmpx2,tmpy2);
 	setTimeout(maindraw,40);
 }
 </script>
