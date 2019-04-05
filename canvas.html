@@ -158,5 +158,39 @@ window.onkeydown=function(){
 	}
 }
 </script>
+
+<div style="position:absolute;bottom:0;left:0;height:100px;width:100px;text-align:center;">
+<div style="height:33%;width:100%;background:#CCC;text-align:center;" onclick="up()">↑
+</div>
+<div style="height:33%;width:100%;text-align:center;">
+	<div style="height:100%;width:50%;float:left;background:#F00" onclick="left()">←</div>
+    <div style="height:100%;width:50%;float:left;background:#0F0" onclick="right()">→</div>
+</div>
+<div style="height:33%;width:100%;background:#CCC;text-align:center;" onclick="down()">↓
+</div>
+</div>
+
+<script>
+function up()
+{
+	//alert("up");
+	cameraZ = cameraZ - 0.04;
+}
+function down()
+{
+	//alert("down");
+	cameraZ = cameraZ + 0.04;
+}
+function left()
+{
+	//alert("left");
+	cameraX = cameraX - 0.3;
+}
+function right()
+{
+	//alert("right");
+	cameraX = cameraX + 0.3;
+}
+</script>
 </body>
 </html>
