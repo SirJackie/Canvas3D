@@ -128,12 +128,40 @@ function maindraw()
 <script>
 function test()
 {
-	cameraX = cameraX + 0.03;
-	cameraY = cameraY + 0.03;
-	cameraZ = cameraZ + 0.01;
-	setTimeout(test,40);
+	//cameraX = cameraX + 0.03;
+	//cameraY = cameraY + 0.03;
+	//cameraZ = cameraZ + 0.01;
+	//setTimeout(test,40);
 }
-setTimeout(test,40);
+//setTimeout(test,40);
+</script>
+<script>
+window.onkeydown=function(){
+	if(event.keyCode == 74){
+		//alert('j');
+		cameraY = cameraY - 0.1;
+	}
+	else if(event.keyCode == 65){
+		//alert('a');
+		cameraX = cameraX - 0.3;
+	}
+	else if(event.keyCode == 75){
+		//alert('k');
+		cameraY = cameraY + 0.1;
+	}
+	else if(event.keyCode == 68){
+		//alert('d');
+		cameraX = cameraX + 0.3;
+	}
+	else if(event.keyCode == 87){
+		//alert('w');
+		cameraZ = cameraZ - 0.04;
+	}
+	else if(event.keyCode == 83){
+		//alert('s');
+		cameraZ = cameraZ + 0.04;
+	}
+}
 </script>
 </body>
 </html>
