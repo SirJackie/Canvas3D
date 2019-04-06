@@ -160,6 +160,7 @@ window.onkeydown=function(){
 }
 </script>
 
+<!--
 <div style="position:absolute;bottom:0;left:0;height:200px;width:200px;text-align:center;">
 <div style="height:33%;width:100%;background:#CCC;text-align:center;" onclick="up()">↑
 </div>
@@ -193,5 +194,18 @@ function right()
 	cameraX = cameraX + 0.3;
 }
 </script>
+-->
+<!--
+<script>
+function test()
+{
+	cameraX = cameraX + 0.03;
+	cameraY = cameraY + 0.03;
+	cameraZ = cameraZ + 0.01;
+	setTimeout(test,40);
+}
+setTimeout(test,40);
+</script>
+-->
 </body>
 </html>
