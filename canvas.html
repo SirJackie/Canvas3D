@@ -85,9 +85,44 @@ var xDispArr=new Array();
 var yDispArr=new Array();
 var lineArr=new Array(0,1,1,2,2,3,3,0,4,5,5,6,6,7,7,4,0,4,1,5,2,6,3,7);
 
+function cube(cx1,cy1,cz1,cx2,cy2,cz2)
+{
+	xArr.push();
+	xArr.push();
+	xArr.push();
+	xArr.push();
+	xArr.push();
+	xArr.push();
+	xArr.push();
+	xArr.push();
+	
+	yArr.push();
+	yArr.push();
+	yArr.push();
+	yArr.push();
+	yArr.push();
+	yArr.push();
+	yArr.push();
+	yArr.push();
+	
+	zArr.push();
+	zArr.push();
+	zArr.push();
+	zArr.push();
+	zArr.push();
+	zArr.push();
+	zArr.push();
+	zArr.push();
+}
+
 setTimeout(maindraw,1);
 function maindraw()
 {
+	//地心引力部分
+	if(cameraY >= 3)
+	{
+		cameraY -= 0.3;
+	}
 	ctx.clearRect(0,0,canvas.width,canvas.height);
 	for(tmp=0;tmp<8;tmp++)
 	{
@@ -132,6 +167,15 @@ function test()
 //setTimeout(test,40);
 </script>
 <script>
+function jump()
+{
+	count+=1;
+	if(count<=10)
+	{
+		cameraY += 0.6;
+		setTimeout(jump,40);
+	}
+}
 window.onkeydown=function(){
 	if(event.keyCode == 74){
 		//alert('j');
@@ -156,6 +200,10 @@ window.onkeydown=function(){
 	else if(event.keyCode == 83){
 		//alert('s');
 		cameraZ = cameraZ + 0.04;
+	}
+	else if (event.keyCode == 32){
+		count = 0;
+		jump();
 	}
 }
 </script>
