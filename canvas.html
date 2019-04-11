@@ -121,7 +121,7 @@ function maindraw()
 	//地心引力部分
 	if(cameraY >= 3)
 	{
-		cameraY -= 0.3;
+		cameraY -= 0.03;
 	}
 	ctx.clearRect(0,0,canvas.width,canvas.height);
 	for(tmp=0;tmp<8;tmp++)
@@ -153,7 +153,7 @@ function maindraw()
 		tmpy2=bodyHeight/2-tmpy2;
 		lineConnect(tmpx1,tmpy1,tmpx2,tmpy2);
 	}
-	setTimeout(maindraw,40);
+	setTimeout(maindraw,1);
 }
 </script>
 <script>
@@ -170,10 +170,10 @@ function test()
 function jump()
 {
 	count+=1;
-	if(count<=10)
+	if(count<=70)
 	{
-		cameraY += 0.6;
-		setTimeout(jump,40);
+		cameraY += 0.1;
+		setTimeout(jump,1);
 	}
 }
 window.onkeydown=function(){
