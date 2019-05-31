@@ -5,6 +5,7 @@
 <meta name="viewport" content="user-scalable=0">
 <title>无标题文档</title>
 <style>
+//定义html和body
 html,body{
 	height:100%;
 	width:100%;
@@ -20,12 +21,15 @@ body{
 <body>
 <canvas id="canvas"></canvas>
 <script>
+//创建canvas
 var c = document.getElementById("canvas");
 var bodyWidth = document.body.clientWidth;
 var bodyHeight = document.body.clientHeight;
 c.width = bodyWidth;
 c.height = bodyHeight;
 var ctx = c.getContext("2d");
+
+//基础画点画线函数
 function drawPt(x,y)
 {
 	ctx.fillStyle = "#000000";
@@ -47,75 +51,25 @@ function lineConnect(x1,y1,x2,y2)
 	ctx.stroke();
 	ctx.closePath();
 }
-//drawXyPt(3,3);
-//drawXyPt(-3,3);
-//drawXyPt(3,-3);
-//drawXyPt(-3,-3);
+
+//定义相机位置
 cameraX = -0.2;
 cameraY = 3;
 cameraZ = 0.5;
-var xArr=new Array();
-xArr[0] = 1;
-xArr[1] = 5;
-xArr[2] = 5;
-xArr[3] = 1;
-xArr[4] = 1;
-xArr[5] = 5;
-xArr[6] = 5;
-xArr[7] = 1;
-var yArr=new Array();
-yArr[0] = 1;
-yArr[1] = 1;
-yArr[2] = 5;
-yArr[3] = 5;
-yArr[4] = 1;
-yArr[5] = 1;
-yArr[6] = 5;
-yArr[7] = 5;
-var zArr=new Array();
-zArr[0] = 1;
-zArr[1] = 1;
-zArr[2] = 1;
-zArr[3] = 1;
-zArr[4] = 3;
-zArr[5] = 3;
-zArr[6] = 3;
-zArr[7] = 3;
+
+//定义顶点位置
+var xArr=new Array(1,5,5,1,1,5,5,1);
+var yArr=new Array(1,1,5,5,1,1,5,5);
+var zArr=new Array(1,1,1,1,3,3,3,3);
+
+//定义显示缓冲区位置
 var xDispArr=new Array();
 var yDispArr=new Array();
+
+//定义线的顶点连接
 var lineArr=new Array(0,1,1,2,2,3,3,0,4,5,5,6,6,7,7,4,0,4,1,5,2,6,3,7);
 
-function cube(cx1,cy1,cz1,cx2,cy2,cz2)
-{
-	xArr.push();
-	xArr.push();
-	xArr.push();
-	xArr.push();
-	xArr.push();
-	xArr.push();
-	xArr.push();
-	xArr.push();
-	
-	yArr.push();
-	yArr.push();
-	yArr.push();
-	yArr.push();
-	yArr.push();
-	yArr.push();
-	yArr.push();
-	yArr.push();
-	
-	zArr.push();
-	zArr.push();
-	zArr.push();
-	zArr.push();
-	zArr.push();
-	zArr.push();
-	zArr.push();
-	zArr.push();
-}
-
-setTimeout(maindraw,1);
+//绘制主程序
 function maindraw()
 {
 	//地心引力部分
@@ -123,24 +77,28 @@ function maindraw()
 	{
 		cameraY -= 0.03;
 	}
+	//清屏
 	ctx.clearRect(0,0,canvas.width,canvas.height);
+	//转换顶点X坐标
 	for(tmp=0;tmp<8;tmp++)
 	{
 		tmp1 = xArr[tmp]*1.0-cameraX*1.0;
 		tmp2 = zArr[tmp]*1.0+cameraZ*1.0;
 		xDispArr[tmp] = tmp1 / tmp2;
 	}
+	//转换顶点Y坐标
 	for(tmp=0;tmp<8;tmp++)
 	{
 		tmp1 = yArr[tmp]*1.0-cameraY*1.0;
 		tmp2 = zArr[tmp]*1.0+cameraZ*1.0;
 		yDispArr[tmp] = tmp1 / tmp2;
 	}
+	//逐个绘制顶点
 	for(tmp=0;tmp<8;tmp++)
 	{
 		drawXyPt(xDispArr[tmp],yDispArr[tmp]);
 	}
-	//lineConnect
+	//连线
 	for(tmp=0;tmp<lineArr.length;tmp+=2)
 	{
 		tmpx1=xDispArr[lineArr[tmp]]*(bodyWidth/20);
@@ -153,20 +111,16 @@ function maindraw()
 		tmpy2=bodyHeight/2-tmpy2;
 		lineConnect(tmpx1,tmpy1,tmpx2,tmpy2);
 	}
+	//40毫秒后继续执行maindraw主函数
 	setTimeout(maindraw,1);
 }
+
+//开始运行maindraw主函数
+setTimeout(maindraw,1);
+
 </script>
 <script>
-function test()
-{
-	//cameraX = cameraX + 0.03;
-	//cameraY = cameraY + 0.03;
-	//cameraZ = cameraZ + 0.01;
-	//setTimeout(test,40);
-}
-//setTimeout(test,40);
-</script>
-<script>
+//跳跃程序
 function jump()
 {
 	count+=1;
@@ -176,6 +130,7 @@ function jump()
 		setTimeout(jump,1);
 	}
 }
+//检测按键按下
 window.onkeydown=function(){
 	if(event.keyCode == 74){
 		//alert('j');
@@ -207,53 +162,5 @@ window.onkeydown=function(){
 	}
 }
 </script>
-
-<!--
-<div style="position:absolute;bottom:0;left:0;height:200px;width:200px;text-align:center;">
-<div style="height:33%;width:100%;background:#CCC;text-align:center;" onclick="up()">↑
-</div>
-<div style="height:33%;width:100%;text-align:center;">
-	<div style="height:100%;width:50%;float:left;background:#F00" onclick="left()">←</div>
-    <div style="height:100%;width:50%;float:left;background:#0F0" onclick="right()">→</div>
-</div>
-<div style="height:33%;width:100%;background:#CCC;text-align:center;" onclick="down()">↓
-</div>
-</div>
-
-<script>
-function up()
-{
-	//alert("up");
-	cameraZ = cameraZ - 0.04;
-}
-function down()
-{
-	//alert("down");
-	cameraZ = cameraZ + 0.04;
-}
-function left()
-{
-	//alert("left");
-	cameraX = cameraX - 0.3;
-}
-function right()
-{
-	//alert("right");
-	cameraX = cameraX + 0.3;
-}
-</script>
--->
-<!--
-<script>
-function test()
-{
-	cameraX = cameraX + 0.03;
-	cameraY = cameraY + 0.03;
-	cameraZ = cameraZ + 0.01;
-	setTimeout(test,40);
-}
-setTimeout(test,40);
-</script>
--->
 </body>
 </html>
