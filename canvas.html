@@ -161,5 +161,89 @@ window.onkeydown=function(){
 	}
 }
 </script>
+<!--触控支持-->
+<style>
+		.key{
+			width:100px;
+			height:100px;
+			border-radius:50px;
+			box-shadow:0 0 10px #000000;
+			text-align: center;
+			display:table-cell;
+			vertical-align: middle;
+			font-size:30px;
+		}
+		#leftbar{
+			height:auto;
+			width:auto;
+			position:absolute;
+			top:0;
+			left:0;
+			padding:10px;
+		}
+	</style>
+	<div id="leftbar">
+		<div class="key" id="up">Up</div><br>
+        <div class="key" id="down">Down</div><br>
+        <div class="key" id="left">Left</div><br>
+        <div class="key" id="right">Right</div><br>
+        <div class="key" id="jump">Jump</div><br>
+	</div>
+	<script>
+	var status = 0;
+	var up = document.getElementById("up");
+	var down = document.getElementById("down");
+	var left = document.getElementById("left");
+	var right = document.getElementById("right");
+	var jump = document.getElementById("jump");
+	up.addEventListener("touchstart",function(){
+		status = 1;
+	});
+	up.addEventListener("touchend",function()
+	{
+		status = 0;
+	});
+	down.addEventListener("touchstart",function(){
+		status = 2;
+	});
+	down.addEventListener("touchend",function()
+	{
+		status = 0;
+	});
+	left.addEventListener("touchstart",function(){
+		status = 3;
+	});
+	left.addEventListener("touchend",function()
+	{
+		status = 0;
+	});
+	right.addEventListener("touchstart",function(){
+		status = 4;
+	});
+	right.addEventListener("touchend",function()
+	{
+		status = 0;
+	});
+	jump.addEventListener("onclick",function(){
+		count = 0;
+		jump();
+	});
+	function touchloop(){
+		if(status == 1){
+			cameraZ = cameraZ - 0.04;
+		}else if(status == 2){
+			cameraZ = cameraZ + 0.04;
+		}
+		else if(status == 3){
+			cameraX = cameraX - 0.3;
+		}
+		else if(status == 4)
+		{
+			cameraX = cameraX + 0.3;
+		}
+		setTimeout(touchloop,20);
+	}
+	setTimeout(touchloop,0);
+	</script>
 </body>
 </html>
