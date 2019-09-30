@@ -81,16 +81,12 @@ function maindraw()
 	//转换顶点X坐标
 	for(tmp=0;tmp<8;tmp++)
 	{
-		tmp1 = xArr[tmp]*1.0-cameraX*1.0;
-		tmp2 = zArr[tmp]*1.0+cameraZ*1.0;
-		xDispArr[tmp] = tmp1 / tmp2;
+		xDispArr[tmp] = (xArr[tmp] - cameraX) / (zArr[tmp] + cameraZ);
 	}
 	//转换顶点Y坐标
 	for(tmp=0;tmp<8;tmp++)
 	{
-		tmp1 = yArr[tmp]*1.0-cameraY*1.0;
-		tmp2 = zArr[tmp]*1.0+cameraZ*1.0;
-		yDispArr[tmp] = tmp1 / tmp2;
+		yDispArr[tmp] = (yArr[tmp]-cameraY) / (zArr[tmp]+cameraZ);
 	}
 	//逐个绘制顶点
 	for(tmp=0;tmp<8;tmp++)
