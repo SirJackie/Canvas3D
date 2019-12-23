@@ -72,6 +72,11 @@
 				ctx.closePath();
 			}
 
+			function prespectiveProjection(camera,vector){
+				vector.x2d = (vector.x - camera.px) / (vector.z - camera.pz);
+				vector.x2d = (vector.y - camera.py) / (vector.z - camera.pz);
+			}
+
 			/*
 			** Variables
 			*/
@@ -87,75 +92,60 @@
 						   new Vector(50,0 ,50),
 						   new Vector(50,50,50)];
 
-			//定义线的顶点连接
-			var lineArr=new Array(0,1,1,2,2,3,3,0,4,5,5,6,6,7,7,4,0,4,1,5,2,6,3,7);
+			var lineStart = [0,1,2,3,4,5,6,7,0,1,2,3];
+			var lineEnd   = [1,2,3,0,5,6,7,4,4,5,6,7];
 
-			//绘制主程序
-			function maindraw()
+			var ctx = CanvasInitialize("canvas");
+
+			function main()
 			{
-				//清屏
 				ctx.clearRect(0,0,canvas.width,canvas.height);
-				//转换顶点X坐标
-				for(tmp=0;tmp<8;tmp++)
-				{
-					xDispArr[tmp] = (xArr[tmp] - cameraX) / (zArr[tmp] + cameraZ);
+
+				//Process Vectors
+				for(var i = 0;i<vecList.length;i++){
+					prespectiveProjection(cam1,vecList[i]);
+					drawMark(ctx,vecList[i].x2d,vecList[i].y2d);
 				}
-				//转换顶点Y坐标
-				for(tmp=0;tmp<8;tmp++)
-				{
-					yDispArr[tmp] = (yArr[tmp]-cameraY) / (zArr[tmp]+cameraZ);
+
+				//Process Lines
+				for(var i = 0;i<lineStart.length;i++){
+					drawLine(ctx,
+					         vecList[lineStart[i]].x2d,
+							 vecList[lineStart[i]].y2d,
+							 vecList[lineEnd  [i]].x2d,
+							 vecList[lineEnd  [i]].y2d);
 				}
-				//逐个绘制顶点
-				for(tmp=0;tmp<8;tmp++)
-				{
-					drawXyPt(xDispArr[tmp],yDispArr[tmp]);
-				}
-				//连线
-				for(tmp=0;tmp<lineArr.length;tmp+=2)
-				{
-					tmpx1=xDispArr[lineArr[tmp]]*(bodyWidth/20);
-					tmpy1=yDispArr[lineArr[tmp]]*(bodyWidth/20);
-					tmpx1+=(bodyWidth/2);
-					tmpy1=(bodyHeight/2)-tmpy1;
-					tmpx2=xDispArr[lineArr[tmp+1]]*bodyWidth/20;
-					tmpy2=yDispArr[lineArr[tmp+1]]*bodyWidth/20;
-					tmpx2+=bodyWidth/2;
-					tmpy2=bodyHeight/2-tmpy2;
-					lineConnect(tmpx1,tmpy1,tmpx2,tmpy2);
-				}
-				requestAnimationFrame(maindraw);
+
+				console.log("x=" + cam1.px + "       y=" + cam1.py + "          z=" + cam1.pz);
+				requestAnimationFrame(main);
 			}
 
-			requestAnimationFrame(maindraw);
+			requestAnimationFrame(main);
 
-		</script>
-
-		<script>
-			//检测按键按下
 			window.onkeydown=function(){
-				if(event.keyCode == 74){
-					//alert('j');
-					cameraY = cameraY - 0.1;
-				}
-				else if(event.keyCode == 65){
+				if(event.keyCode == 65){
 					//alert('a');
-					cameraX = cameraX - 0.3;
-				}
-				else if(event.keyCode == 75){
-					//alert('k');
-					cameraY = cameraY + 0.1;
+					cam1.px -= 1;
 				}
 				else if(event.keyCode == 68){
 					//alert('d');
-					cameraX = cameraX + 0.3;
+					cam1.px += 1;
 				}
-				else if(event.keyCode == 87){
-					//alert('w');
-					cameraZ = cameraZ - 0.04;
+				else if(event.keyCode == 74){
+					//alert('j');
+					cam1.py -= 1;
+				}
+				else if(event.keyCode == 75){
+					//alert('k');
+					cam1.py += 1;
 				}
 				else if(event.keyCode == 83){
 					//alert('s');
-					cameraZ = cameraZ + 0.04;
+					cam1.pz -= 1;
+				}
+				else if(event.keyCode == 87){
+					//alert('w');
+					cam1.pz += 1;
 				}
 			}
 		</script>
