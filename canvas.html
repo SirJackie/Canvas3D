@@ -20,30 +20,28 @@
 	<body>
 		<canvas id="canvas"></canvas>
 		<script>
-			//创建canvas
-			var c = document.getElementById("canvas");
-			var bodyWidth = document.body.clientWidth;
-			var bodyHeight = document.body.clientHeight;
-			c.width = bodyWidth;
-			c.height = bodyHeight;
-			var ctx = c.getContext("2d");
+			/*
+			** Canvas Functions
+			*/
 
-			//基础画点画线函数
-			function drawPt(x,y)
-			{
+			function CanvasInitialize(canvasID){
+				var canvas = document.getElementById(canvasID);
+				canvas.width = document.body.clientWidth;
+				canvas.height = document.body.clientHeight;
+				var ctx = canvas.getContext("2d");
 				ctx.fillStyle = "#000000";
+				return ctx;
+			}
+
+			/*
+			** Drawing Functions
+			*/
+
+			function drawMark(ctx,x,y){
 				ctx.fillRect(x-3,y-3,6,6);
 			}
-			function drawXyPt(dcpx,dcpy)
-			{
-				tmpx1=dcpx*(bodyWidth/20);
-				tmpy1=dcpy*(bodyWidth/20);
-				tmpx1+=(bodyWidth/2);
-				tmpy1=(bodyHeight/2)-tmpy1;
-				drawPt(tmpx1,tmpy1);
-			}
-			function lineConnect(x1,y1,x2,y2)
-			{
+
+			function drawLine(ctx,x1,y1,x2,y2){
 				ctx.beginPath();
 				ctx.moveTo(x1,y1);
 				ctx.lineTo(x2,y2);
