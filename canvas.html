@@ -35,9 +35,12 @@
 			}
 
 			function Vector(x,y,z){
-				this.x = x;
-				this.y = y;
-				this.z = z;
+				this.xo = x;
+				this.yo = y;
+				this.zo = z;
+				this.x = null;
+				this.y = null;
+				this.z = null;
 				this.x2d = null;
 				this.y2d = null;
 				return this;
@@ -72,9 +75,14 @@
 				ctx.closePath();
 			}
 
+			function angleProcess(camera,vector){
+				vector.x = vector.xo;
+				vector.y = (vector.yo * Math.cos(camera.ax)) + (vector.zo * Math.sin(camera.ax));
+				vector.z = (vector.zo * Math.cos(camera.ax)) - (vector.yo * Math.sin(camera.ax));
+			}
 			function prespectiveProjection(camera,vector){
-				vector.x2d = (vector.x - camera.px) / (vector.z + camera.pz);
-				vector.y2d = document.body.clientHeight - ((vector.y - camera.py) / (vector.z + camera.pz));
+				vector.x2d = (document.body.clientWidth/2) +(vector.x - camera.px) / (vector.z + camera.pz);
+				vector.y2d = (document.body.clientHeight/2) - ((vector.y - camera.py) / (vector.z + camera.pz));
 			}
 
 			/*
@@ -103,6 +111,7 @@
 
 				//Process Vectors
 				for(var i = 0;i<vecList.length;i++){
+					angleProcess(cam1,vecList[i]);
 					prespectiveProjection(cam1,vecList[i]);
 					drawMark(ctx,vecList[i].x2d,vecList[i].y2d);
 				}
@@ -145,6 +154,18 @@
 				else if(event.keyCode == 83){
 					//alert('s');
 					cam1.pz += 0.01;
+				}
+				else if(event.keyCode == 90){
+					//z
+					cam1.ax += 0.00001;
+				}
+				else if(event.keyCode == 88){
+					//x
+					cam1.ax -= 0.00001;
+				}
+
+				else{
+					alert(event.keyCode);
 				}
 				
 			}
