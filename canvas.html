@@ -20,6 +20,29 @@
 	<body>
 		<canvas id="canvas"></canvas>
 		<script>
+
+			/*
+			** Structs
+			*/
+			function Camera(positionX,positionY,positionZ,angleX,angleY,angleZ){
+				this.px = positionX;
+				this.py = positionY;
+				this.pz = positionZ;
+				this.ax = angleX;
+				this.ay = angleY;
+				this.az = angleZ;
+				return this;
+			}
+
+			function Vector(x,y,z){
+				this.x = x;
+				this.y = y;
+				this.z = z;
+				this.x2d = null;
+				this.y2d = null;
+				return this;
+			}
+
 			/*
 			** Canvas Functions
 			*/
@@ -49,19 +72,20 @@
 				ctx.closePath();
 			}
 
-			//定义相机位置
-			cameraX = -0.2;
-			cameraY = 3;
-			cameraZ = 0.5;
+			/*
+			** Variables
+			*/
 
-			//定义顶点位置
-			var xArr=new Array(1,5,5,1,1,5,5,1);
-			var yArr=new Array(1,1,5,5,1,1,5,5);
-			var zArr=new Array(1,1,1,1,3,3,3,3);
+			var cam1 = Camera(-0.2,3,0.5,0,0,0);
 
-			//定义显示缓冲区位置
-			var xDispArr=new Array();
-			var yDispArr=new Array();
+			var vecList = [new Vector(0 ,0 ,0 ),
+						   new Vector(0 ,50,0 ),
+						   new Vector(50,0 ,0 ),
+						   new Vector(50,50,0 ),
+						   new Vector(0 ,0 ,50),
+						   new Vector(0 ,50,50),
+						   new Vector(50,0 ,50),
+						   new Vector(50,50,50)];
 
 			//定义线的顶点连接
 			var lineArr=new Array(0,1,1,2,2,3,3,0,4,5,5,6,6,7,7,4,0,4,1,5,2,6,3,7);
