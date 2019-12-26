@@ -77,8 +77,21 @@
 
 			function angleProcess(camera,vector){
 				vector.x = vector.xo;
-				vector.y = (vector.yo * Math.cos(camera.ax)) + (vector.zo * Math.sin(camera.ax));
-				vector.z = (vector.zo * Math.cos(camera.ax)) - (vector.yo * Math.sin(camera.ax));
+				vector.y = vector.yo;
+				vector.z = vector.zo;
+				if(camera.ax != 0){
+					vector.y = (vector.y * Math.cos(camera.ax)) + (vector.z * Math.sin(camera.ax));
+					vector.z = (vector.z * Math.cos(camera.ax)) - (vector.y * Math.sin(camera.ax));
+				}
+				if(camera.ay != 0){
+					vector.x = (vector.x * Math.cos(camera.ay)) - (vector.z * Math.sin(camera.ay));
+					vector.z = (vector.x * Math.sin(camera.ay)) + (vector.z * Math.sin(camera.ay));
+				}
+				if(camera.ax != 0){
+					vector.x = (vector.x * Math.cos(camera.az)) - (vector.y * Math.sin(camera.az));
+					vector.y = (vector.x * Math.sin(camera.az)) + (vector.y * Math.cos(camera.az));
+				}
+				
 			}
 			function prespectiveProjection(camera,vector){
 				vector.x2d = (document.body.clientWidth/2) +(vector.x - camera.px) / (vector.z + camera.pz);
@@ -162,6 +175,22 @@
 				else if(event.keyCode == 88){
 					//x
 					cam1.ax -= 0.00001;
+				}
+				else if(event.keyCode == 67){
+					//z
+					cam1.ay += 0.00001;
+				}
+				else if(event.keyCode == 86){
+					//x
+					cam1.ay -= 0.00001;
+				}
+				else if(event.keyCode == 66){
+					//z
+					cam1.az += 0.00001;
+				}
+				else if(event.keyCode == 78){
+					//x
+					cam1.az -= 0.00001;
 				}
 
 				else{
