@@ -41,6 +41,26 @@
 				return this;
 			}
 
+			function Vertex2D(x,y){
+				this.x = x;
+				this.y = y;
+				return this;
+			}
+
+			function Mesh(Vertex1,Vertex2,Vertex3){
+				this.vertex1 = Vertex1;
+				this.vertex2 = Vertex2;
+				this.vertex3 = Vertex3;
+				return this;
+			}
+
+			function Mesh2D(Vertex2D1,Vertex2D2,Vertex2D3){
+				this.vertex1 = Vertex2D1;
+				this.vertex2 = Vertex2D2;
+				this.vertex3 = Vertex2D3;
+				return this;
+			}
+
 			/*
 			** Drawing Functions
 			*/
