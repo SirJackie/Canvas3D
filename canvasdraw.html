@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>test</title>
+    </head>
+    <body>
+        <canvas id="canvas" width="1000" height="500"></canvas>
+        <script>
+            var canvas = document.getElementById("canvas");
+            var ctx = canvas.getContext("2d");
+            ctx.strokeStyle="rgb(0,0,0)";
+            ctx.fillStyle = "rgb(0,144,255,0.5)";
+            var dx = 0;
+            var dy = 0;
+            for(var i = 0;i<10;i++){
+                dx += 10;
+                dy += 10;
+                ctx.beginPath();
+                ctx.moveTo(100+dx,100+dy);
+                ctx.lineTo(200+dx,100+dy);
+                ctx.lineTo(100+dx,200+dy);
+                ctx.lineTo(100+dx,100+dy);
+                ctx.stroke();
+                ctx.fill();
+            }
+            
+        </script>
+    </body>
+</html>
