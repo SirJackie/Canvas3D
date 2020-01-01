@@ -6,10 +6,20 @@
     </head>
     <body>
         <script>
-            var v1 = new cartesianVertex(1,1,1);
-            var v2 = new sphericalVertex(10,45,45);
-            console.log(v1);
-            console.log(v2);
+            // var v1 = new cartesianVertex(1,1,1);
+            // var v2 = new sphericalVertex(10,45,45);
+            // console.log(v1);
+            // console.log(v2);
+            var c = new cartesianVertex(1,1,1);
+            var s = cver2sver(c);
+            console.log("cver2sver:");
+            console.log(s);
+
+            console.log("\n\n\n\n\n");
+
+            var newc = sver2cver(s);
+            console.log("sver2cver:");
+            console.log(newc);
         </script>
     </body>
 </html>
