@@ -34,17 +34,15 @@
 				return this;
 			}
 
-			function Vector(x,y,z){
+			function Vertex(x,y,z){
 				this.x = x;
 				this.y = y;
 				this.z = z;
-				this.x2d = null;
-				this.y2d = null;
 				return this;
 			}
 
 			/*
-			** Canvas Functions
+			** Drawing Functions
 			*/
 
 			function CanvasInitialize(canvasID){
@@ -55,10 +53,6 @@
 				ctx.fillStyle = "#000000";
 				return ctx;
 			}
-
-			/*
-			** Drawing Functions
-			*/
 
 			function drawMark(ctx,x,y){
 				ctx.fillRect(x-3,y-3,6,6);
@@ -72,9 +66,9 @@
 				ctx.closePath();
 			}
 
-			function prespectiveProjection(camera,vector){
-				vector.x2d = (document.body.clientWidth/2) +(vector.x - camera.x) / (vector.z + camera.z);
-				vector.y2d = (document.body.clientHeight/2) - ((vector.y - camera.y) / (vector.z + camera.z));
+			function prespectiveProjection(camera,vertex){
+				vertex.x2d = (document.body.clientWidth/2) +(vertex.x - camera.x) / (vertex.z + camera.z);
+				vertex.y2d = (document.body.clientHeight/2) - ((vertex.y - camera.y) / (vertex.z + camera.z));
 			}
 
 			/*
@@ -83,14 +77,14 @@
 
 			var cam1 = Camera(-0.2,3,0.5,0,0,0);
 
-			var vecList = [new Vector(0,0,0),
-						   new Vector(200,0,0),
-						   new Vector(200,200,0),
-						   new Vector(0,200,0),
-						   new Vector(0,0,1),
-						   new Vector(200,0,1),
-						   new Vector(200,200,1),
-						   new Vector(0,200,1)];
+			var vecList = [new Vertex(0,0,0),
+						   new Vertex(200,0,0),
+						   new Vertex(200,200,0),
+						   new Vertex(0,200,0),
+						   new Vertex(0,0,1),
+						   new Vertex(200,0,1),
+						   new Vertex(200,200,1),
+						   new Vertex(0,200,1)];
 
 			var lineStart = [0,1,2,3,   4,5,6,7,   0,1,2,3];
 			var lineEnd   = [1,2,3,0,   5,6,7,4,   4,5,6,7];
@@ -101,7 +95,7 @@
 			{
 				ctx.clearRect(0,0,canvas.width,canvas.height);
 
-				//Process Vectors
+				//Process Vertexs
 				for(var i = 0;i<vecList.length;i++){
 					prespectiveProjection(cam1,vecList[i]);
 					drawMark(ctx,vecList[i].x2d,vecList[i].y2d);
