@@ -38,6 +38,27 @@ function Mesh2D(Vertex2D1,Vertex2D2,Vertex2D3){
     return this;
 }
 
+//const
+//spherical coordinate
+function sphericalVertex(rho,phi,theta){
+    this.rho = rho;
+    this.phi = phi;
+    this.theta = theta;
+    return this;
+}
+function cver2sver(cver){
+    var rho   = Math.sqrt(cver.x*cver.x + cver.y*cver.y + cver.z*cver.z);
+    var phi   = Math.acos(cver.z / rho);
+    var theta = Math.atan(cver.y / cver.x);
+    return new sphericalVertex(rho,phi,theta);
+}
+function sver2cver(sver){
+    var x = sver.rho * Math.sin(sver.phi) * Math.cos(sver.theta);
+    var y = sver.rho * Math.sin(sver.phi) * Math.sin(sver.theta);
+    var z = sver.rho * Math.cos(sver.phi);
+    return new Vertex(x,y,z);
+}
+
 /*
 ** Drawing Functions
 */
@@ -66,4 +87,6 @@ function drawLine(ctx,x1,y1,x2,y2){
 function prespectiveProjection(camera,vertex){
     vertex.x2d = (document.body.clientWidth/2) +(vertex.x - camera.x) / (vertex.z + camera.z);
     vertex.y2d = (document.body.clientHeight/2) - ((vertex.y - camera.y) / (vertex.z + camera.z));
+    return vertex;
 }
+

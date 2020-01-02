@@ -27,14 +27,14 @@
 
 			var cam1 = Camera(-0.2,3,0.5,0,0,0);
 
-			var vecList = [new Vertex(0,0,0),
-						   new Vertex(200,0,0),
-						   new Vertex(200,200,0),
-						   new Vertex(0,200,0),
-						   new Vertex(0,0,1),
-						   new Vertex(200,0,1),
+			var vecList = [new Vertex(1,1,1),
+						   new Vertex(200,1,1),
 						   new Vertex(200,200,1),
-						   new Vertex(0,200,1)];
+						   new Vertex(1,200,1),
+						   new Vertex(1,1,2),
+						   new Vertex(200,1,2),
+						   new Vertex(200,200,2),
+						   new Vertex(1,200,2)];
 
 			var lineStart = [0,1,2,3,   4,5,6,7,   0,1,2,3];
 			var lineEnd   = [1,2,3,0,   5,6,7,4,   4,5,6,7];
@@ -47,7 +47,8 @@
 
 				//Process Vertexs
 				for(var i = 0;i<vecList.length;i++){
-					prespectiveProjection(cam1,vecList[i]);
+					vecList[i] = rotation(cam1,vecList[i]);
+					vecList[i] = prespectiveProjection(cam1,vecList[i]);
 					drawMark(ctx,vecList[i].x2d,vecList[i].y2d);
 				}
 
@@ -63,6 +64,19 @@
 				requestAnimationFrame(main);
 			}
 
+			function rotation(camera,vertex){
+				// console.log("1:");
+				// console.log(vertex);
+				// console.log("\n\n\n\n\n");
+
+				var stmp = cver2sver(vertex);
+				// console.log(stmp);
+				// console.log("before:" + stmp.phi);
+				stmp.phi += 0.0002;
+				// console.log("after:" + stmp.phi);
+				vertex = sver2cver(stmp);
+				return vertex;
+			}
 			requestAnimationFrame(main);
 
 			/*
