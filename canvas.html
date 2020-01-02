@@ -40,7 +40,6 @@
 			var lineEnd   = [1,2,3,0,   5,6,7,4,   4,5,6,7];
 
 			var ctx = CanvasInitialize("canvas");
-
 			function main()
 			{
 				ctx.clearRect(0,0,canvas.width,canvas.height);
@@ -65,17 +64,10 @@
 			}
 
 			function rotation(camera,vertex){
-				// console.log("1:");
-				// console.log(vertex);
-				// console.log("\n\n\n\n\n");
-
 				var stmp = cver2sver(vertex);
-				// console.log(stmp);
-				// console.log("before:" + stmp.phi);
-				stmp.phi += 0.0002;
-				// console.log("after:" + stmp.phi);
-				vertex = sver2cver(stmp);
-				return vertex;
+				stmp.phi += 0.00002;
+				//stmp.theta += 0.00002;
+				return sver2cver(stmp);
 			}
 			requestAnimationFrame(main);
 
