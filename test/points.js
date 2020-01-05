@@ -15,13 +15,13 @@ function cartesianVertex(x,y,z){
 }
 function cver2sver(cver){
     var rho   = Math.sqrt(cver.x*cver.x + cver.y*cver.y + cver.z*cver.z);
-    var phi   = Math.acos(cver.z / rho);
-    var theta = Math.atan(cver.y / cver.x);
+    var phi   = Math.acos(cver.z / rho)*0.017453293;
+    var theta = Math.atan(cver.y / cver.x)*0.017453293;
     return new sphericalVertex(rho,phi,theta);
 }
 function sver2cver(sver){
-    var x = sver.rho * Math.sin(sver.phi) * Math.cos(sver.theta);
-    var y = sver.rho * Math.sin(sver.phi) * Math.sin(sver.theta);
-    var z = sver.rho * Math.cos(sver.phi);
+    var x = sver.rho * Math.sin(sver.phi)*0.017453293 * Math.cos(sver.theta)*0.017453293;
+    var y = sver.rho * Math.sin(sver.phi)*0.017453293 * Math.sin(sver.theta)*0.017453293;
+    var z = sver.rho * Math.cos(sver.phi)*0.017453293;
     return new cartesianVertex(x,y,z);
 }
