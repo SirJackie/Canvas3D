@@ -73,8 +73,8 @@
 			}
 
 			function prespectiveProjection(camera,vector){
-				vector.x2d = (vector.x - camera.px) / (vector.z + camera.pz);
-				vector.y2d = document.body.clientHeight - ((vector.y - camera.py) / (vector.z + camera.pz));
+				vector.x2d = (document.body.clientWidth/2)  + (vector.x - camera.px) / (vector.z + camera.pz);
+				vector.y2d = (document.body.clientHeight/2) - (vector.y - camera.py) / (vector.z + camera.pz);
 			}
 
 			/*
@@ -124,11 +124,11 @@
 			window.onkeydown=function(){
 				if(event.keyCode == 65){
 					//alert('a');
-					cam1.px += 3;
+					cam1.px -= 3;
 				}
 				else if(event.keyCode == 68){
 					//alert('d');
-					cam1.px -= 3;
+					cam1.px += 3;
 				}
 				else if(event.keyCode == 74){
 					//alert('j');
