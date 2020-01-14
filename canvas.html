@@ -59,6 +59,10 @@
 				this.vec3 = vec3;
 			}
 
+			function Object4D(meshlist){
+				this.meshlist = meshlist;
+			}
+
 			/*
 			** Canvas Functions
 			*/
@@ -114,10 +118,16 @@
 			window.onload = function(){
 				var cam1 = new Camera(0, 0, 0, 0, 0, 0, document.body.clientWidth, document.body.clientHeight);
 				var ctx  = CanvasInit("canvas1", cam1.screenWidth, cam1.screenHeight);
-				var mesh4d1 = new Mesh4D(new Vector4D(1,1,1), new Vector4D(4,1,1), new Vector4D(1,4,1));
-				var mesh2d1 = Mesh4D2Mesh2D(cam1,mesh4d1);
-				console.log(mesh2d1);
-				CanvasDrawMesh2D(ctx, mesh2d1, "rgba(0,144,255,0.5)");
+				var obj1 = new Object4D([new Mesh4D(new Vector4D(1,1,1), new Vector4D(4,1,1), new Vector4D(1,4,1)),
+										 new Mesh4D(new Vector4D(1,1,1), new Vector4D(4,4,1), new Vector4D(4,1,1)),
+										 new Mesh4D(new Vector4D(1,4,4), new Vector4D(1,1,1), new Vector4D(1,1,1)),
+										 new Mesh4D(new Vector4D(1,4,4), new Vector4D(1,4,1), new Vector4D(1,1,1)),
+										 new Mesh4D(new Vector4D(4,4,4), new Vector4D(4,1,4), new Vector4D(4,1,1)),
+										 new Mesh4D(new Vector4D(4,4,4), new Vector4D(4,4,1), new Vector4D(4,1,1)),
+										 new Mesh4D(new Vector4D(1,1,4), new Vector4D(4,1,4), new Vector4D(1,4,4)),
+										 new Mesh4D(new Vector4D(1,1,4), new Vector4D(4,4,4), new Vector4D(4,1,4))]);
+				console.log(obj1);
+				//CanvasDrawMesh2D(ctx, mesh2d1, "rgba(0,144,255,0.5)");
 			}
 		</script>
 	</body>
