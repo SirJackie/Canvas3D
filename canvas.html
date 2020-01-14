@@ -63,6 +63,24 @@
 				this.meshlist = meshlist;
 			}
 
+			function World4D(){
+				this.meshlist = [];
+				this.PlaceObject4D = function(newObject,x,y,z){
+					for(var i = 0; i < newObject.meshlist.length; i++){
+						this.meshlist.push(new Mesh4D(new Vector4D(newObject.meshlist[i].vec1.x + x,
+																   newObject.meshlist[i].vec1.y + y,
+																   newObject.meshlist[i].vec1.z + z,),
+													  new Vector4D(newObject.meshlist[i].vec2.x + x,
+																   newObject.meshlist[i].vec2.y + y,
+																   newObject.meshlist[i].vec2.z + z,),
+													  new Vector4D(newObject.meshlist[i].vec3.x + x,
+																   newObject.meshlist[i].vec3.y + y,
+																   newObject.meshlist[i].vec3.z + z,)));
+					}
+					this.meshlist.push();
+				}
+			}
+
 			/*
 			** Canvas Functions
 			*/
@@ -126,8 +144,9 @@
 										 new Mesh4D(new Vector4D(4,4,4), new Vector4D(4,4,1), new Vector4D(4,1,1)),
 										 new Mesh4D(new Vector4D(1,1,4), new Vector4D(4,1,4), new Vector4D(1,4,4)),
 										 new Mesh4D(new Vector4D(1,1,4), new Vector4D(4,4,4), new Vector4D(4,1,4))]);
-				console.log(obj1);
-				//CanvasDrawMesh2D(ctx, mesh2d1, "rgba(0,144,255,0.5)");
+				var world1 = new World4D([obj1]);
+				world1.PlaceObject4D(obj1,2.5,2.5,2.5);
+				console.log(world1);
 			}
 		</script>
 	</body>
