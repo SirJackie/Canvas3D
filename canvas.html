@@ -24,13 +24,15 @@
 			/*
 			** Structs
 			*/
-			function Camera(positionX, positionY, positionZ, angleX, angleY, angleZ){
-				this.x      = positionX;
-				this.y      = positionY;
-				this.z      = positionZ;
-				this.anglex = angleX;
-				this.angley = angleY;
-				this.anglez = angleZ;
+			function Camera(positionX, positionY, positionZ, angleX, angleY, angleZ, screenWidth, screenHeight){
+				this.x            = positionX;
+				this.y            = positionY;
+				this.z            = positionZ;
+				this.anglex       = angleX;
+				this.angley       = angleY;
+				this.anglez       = angleZ;
+				this.screenWidth  = screenWidth;
+				this.screenHeight = screenHeight;
 			}
 
 			function Vector2D(x,y){
@@ -87,15 +89,22 @@
 				ctx.closePath();
 			}
 
-			function prespectiveProjection(camera,vector){
-				vector.x2d = (document.body.clientWidth/2)  + (vector.x - camera.px) / (vector.z + camera.pz);
-				vector.y2d = (document.body.clientHeight/2) - (vector.y - camera.py) / (vector.z + camera.pz);
+			/*
+			** Projection Functions
+			*/
+
+			function Vector4D2Vector2D(camera,vector){
+				var x2d = (camera.screenWidth  / 2) + ((vector.x - camera.x) / (vector.z + camera.z) * 50);
+				var y2d = (camera.screenHeight / 2) - ((vector.y - camera.y) / (vector.z + camera.z) * 50);
+				return new Vector2D(x2d,y2d);
 			}
 
 			window.onload = function(){
-				var ctx = CanvasInit("canvas1", document.body.clientWidth, document.body.clientHeight);
-				CanvasDrawVector2D(ctx, new Vector2D(100,100));
-				CanvasDrawMesh2D(ctx, new Mesh2D(new Vector2D(100,100), new Vector2D(200,100), new Vector2D(100,200)), "rgba(0,144,255,0.5)");
+				var cam1 = new Camera(0, 0, 0, 0, 0, 0, document.body.clientWidth, document.body.clientHeight);
+				var ctx  = CanvasInit("canvas1", cam1.screenWidth, cam1.screenHeight);
+				CanvasDrawVector2D(ctx, Vector4D2Vector2D(cam1, new Vector4D(1,1,1)));
+				CanvasDrawVector2D(ctx, Vector4D2Vector2D(cam1, new Vector4D(4,1,1)));
+				CanvasDrawVector2D(ctx, Vector4D2Vector2D(cam1, new Vector4D(1,4,1)));
 			}
 		</script>
 	</body>
