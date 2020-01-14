@@ -18,53 +18,59 @@
 	</head>
 
 	<body>
-		<canvas id="canvas"></canvas>
+		<canvas id="canvas1"></canvas>
 		<script>
 
 			/*
 			** Structs
 			*/
-			function Camera(positionX,positionY,positionZ,angleX,angleY,angleZ){
-				this.px = positionX;
-				this.py = positionY;
-				this.pz = positionZ;
-				this.ax = angleX;
-				this.ay = angleY;
-				this.az = angleZ;
-				return this;
+			function Camera(positionX, positionY, positionZ, angleX, angleY, angleZ){
+				this.x      = positionX;
+				this.y      = positionY;
+				this.z      = positionZ;
+				this.anglex = angleX;
+				this.angley = angleY;
+				this.anglez = angleZ;
 			}
 
-			function Vector(x,y,z){
+			function Vector2D(x,y){
+				this.x = x;
+				this.y = y;
+			}
+
+			function Mesh2D(vec1,vec2,vec3){
+				this.vec1 = 1;
+				this.vec2 = 2;
+				this.vec3 = 3;
+			}
+
+			function Vector4D(x,y,z){
 				this.x = x;
 				this.y = y;
 				this.z = z;
-				this.x2d = null;
-				this.y2d = null;
-				return this;
+				this.w = 1;
 			}
 
 			/*
 			** Canvas Functions
 			*/
 
-			function CanvasInitialize(canvasID){
-				var canvas = document.getElementById(canvasID);
-				canvas.width = document.body.clientWidth;
-				canvas.height = document.body.clientHeight;
-				var ctx = canvas.getContext("2d");
-				ctx.fillStyle = "#000000";
+			function CanvasInit(canvasID, width, height){
+				var canvas    = document.getElementById(canvasID);
+				var ctx       = canvas.getContext("2d");
+				canvas.width  = width;
+				canvas.height = height;
 				return ctx;
 			}
 
-			/*
-			** Drawing Functions
-			*/
-
-			function drawMark(ctx,x,y){
-				ctx.fillRect(x-3,y-3,6,6);
+			function CanvasDrawVector2D(ctx, vector){
+				ctx.fillRect(vector.x-3, //Start X Position
+							 vector.y-3, //Start Y Position
+							 6,          //Width
+							 6);         //Height
 			}
 
-			function drawLine(ctx,x1,y1,x2,y2){
+			function CanvasDrawMech2D(ctx, x1, y1, x2, y2){
 				ctx.beginPath();
 				ctx.moveTo(x1,y1);
 				ctx.lineTo(x2,y2);
@@ -77,76 +83,9 @@
 				vector.y2d = (document.body.clientHeight/2) - (vector.y - camera.py) / (vector.z + camera.pz);
 			}
 
-			/*
-			** Variables
-			*/
-
-			var cam1 = Camera(-0.2,3,0.5,0,0,0);
-
-			var vecList = [new Vector(0,0,0),
-						   new Vector(200,0,0),
-						   new Vector(200,200,0),
-						   new Vector(0,200,0),
-						   new Vector(0,0,1),
-						   new Vector(200,0,1),
-						   new Vector(200,200,1),
-						   new Vector(0,200,1)];
-
-			var lineStart = [0,1,2,3,   4,5,6,7,   0,1,2,3];
-			var lineEnd   = [1,2,3,0,   5,6,7,4,   4,5,6,7];
-
-			var ctx = CanvasInitialize("canvas");
-
-			function main()
-			{
-				ctx.clearRect(0,0,canvas.width,canvas.height);
-
-				//Process Vectors
-				for(var i = 0;i<vecList.length;i++){
-					prespectiveProjection(cam1,vecList[i]);
-					drawMark(ctx,vecList[i].x2d,vecList[i].y2d);
-				}
-
-				//Process Lines
-				for(var i = 0;i<lineStart.length;i++){
-					drawLine(ctx,
-					         vecList[lineStart[i]].x2d,
-							 vecList[lineStart[i]].y2d,
-							 vecList[lineEnd  [i]].x2d,
-							 vecList[lineEnd  [i]].y2d);
-				}
-
-				requestAnimationFrame(main);
-			}
-
-			requestAnimationFrame(main);
-
-			window.onkeydown=function(){
-				if(event.keyCode == 65){
-					//alert('a');
-					cam1.px -= 3;
-				}
-				else if(event.keyCode == 68){
-					//alert('d');
-					cam1.px += 3;
-				}
-				else if(event.keyCode == 74){
-					//alert('j');
-					cam1.py -= 3;
-				}
-				else if(event.keyCode == 75){
-					//alert('k');
-					cam1.py += 3;
-				}
-				else if(event.keyCode == 87){
-					//alert('w');
-					cam1.pz -= 0.01;
-				}
-				else if(event.keyCode == 83){
-					//alert('s');
-					cam1.pz += 0.01;
-				}
-				
+			window.onload = function(){
+				var ctx = CanvasInit("canvas1", document.body.clientWidth, document.body.clientHeight);
+				CanvasDrawVector2D(ctx, new Vector2D(100,100));
 			}
 		</script>
 	</body>
