@@ -46,6 +46,10 @@
 				this.vec3 = vec3;
 			}
 
+			function World2D(){
+				this.meshlist = [];
+			}
+
 			function Vector4D(x,y,z){
 				this.x = x;
 				this.y = y;
@@ -94,6 +98,7 @@
 			}
 
 			function CanvasDrawVector2D(ctx, vector){
+				ctx.fillStyle   = "#000000";
 				ctx.fillRect(vector.x-3, //Start X Position
 							 vector.y-3, //Start Y Position
 							 6,          //Width
@@ -117,13 +122,19 @@
 				ctx.closePath();
 			}
 
+			function CanvasDrawWorld2D(ctx, world, color){
+				for(var i = 0; i < world.meshlist.length; i++){
+					CanvasDrawMesh2D(ctx, world.meshlist[i], color);
+				}
+			}
+
 			/*
 			** Projection Functions
 			*/
 
 			function Vector4D2Vector2D(camera,vector){
-				var x2d = (camera.screenWidth  / 2) + ((vector.x - camera.x) / (vector.z + camera.z) * 50);
-				var y2d = (camera.screenHeight / 2) - ((vector.y - camera.y) / (vector.z + camera.z) * 50);
+				var x2d = (camera.screenWidth  / 2) + ((vector.x - camera.x) / (vector.z + camera.z) * 100);
+				var y2d = (camera.screenHeight / 2) - ((vector.y - camera.y) / (vector.z + camera.z) * 100);
 				return new Vector2D(x2d,y2d);
 			}
 
@@ -133,20 +144,31 @@
 								  Vector4D2Vector2D(camera, mesh4d.vec3));
 			}
 
+			function World4D2World2D(camera,world4d){
+				var world2d = new World2D();
+				for(var i = 0; i < world4d.meshlist.length; i++){
+					world2d.meshlist.push(Mesh4D2Mesh2D(camera, world4d.meshlist[i]));
+				}
+				return world2d;
+			}
+
 			window.onload = function(){
 				var cam1 = new Camera(0, 0, 0, 0, 0, 0, document.body.clientWidth, document.body.clientHeight);
 				var ctx  = CanvasInit("canvas1", cam1.screenWidth, cam1.screenHeight);
 				var obj1 = new Object4D([new Mesh4D(new Vector4D(1,1,1), new Vector4D(4,1,1), new Vector4D(1,4,1)),
-										 new Mesh4D(new Vector4D(1,1,1), new Vector4D(4,4,1), new Vector4D(4,1,1)),
+										 new Mesh4D(new Vector4D(1,4,1), new Vector4D(4,4,1), new Vector4D(4,1,1)),
 										 new Mesh4D(new Vector4D(1,4,4), new Vector4D(1,1,1), new Vector4D(1,1,1)),
 										 new Mesh4D(new Vector4D(1,4,4), new Vector4D(1,4,1), new Vector4D(1,1,1)),
 										 new Mesh4D(new Vector4D(4,4,4), new Vector4D(4,1,4), new Vector4D(4,1,1)),
 										 new Mesh4D(new Vector4D(4,4,4), new Vector4D(4,4,1), new Vector4D(4,1,1)),
 										 new Mesh4D(new Vector4D(1,1,4), new Vector4D(4,1,4), new Vector4D(1,4,4)),
-										 new Mesh4D(new Vector4D(1,1,4), new Vector4D(4,4,4), new Vector4D(4,1,4))]);
-				var world1 = new World4D([obj1]);
-				world1.PlaceObject4D(obj1,2.5,2.5,2.5);
-				console.log(world1);
+										 new Mesh4D(new Vector4D(1,1,4), new Vector4D(4,4,4), new Vector4D(4,1,4))
+										 ]);
+				var world4d1 = new World4D();
+				world4d1.PlaceObject4D(obj1,2.5,2.5,2.5);
+				var world2d1 = World4D2World2D(cam1,world4d1);
+				console.log(world2d1);
+				CanvasDrawWorld2D(ctx,world2d1,"rgba(0,144,255,0.5)");
 			}
 		</script>
 	</body>
