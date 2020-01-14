@@ -39,9 +39,9 @@
 			}
 
 			function Mesh2D(vec1,vec2,vec3){
-				this.vec1 = 1;
-				this.vec2 = 2;
-				this.vec3 = 3;
+				this.vec1 = vec1;
+				this.vec2 = vec2;
+				this.vec3 = vec3;
 			}
 
 			function Vector4D(x,y,z){
@@ -70,10 +70,19 @@
 							 6);         //Height
 			}
 
-			function CanvasDrawMech2D(ctx, x1, y1, x2, y2){
+			function CanvasDrawMesh2D(ctx, mesh, color){
+				CanvasDrawVector2D(ctx, mesh.vec1);
+				CanvasDrawVector2D(ctx, mesh.vec2);
+				CanvasDrawVector2D(ctx, mesh.vec3);
+
+				ctx.fillStyle   = "rgba(0,144,255,0.5)";
+				ctx.strokeStyle = "#000000";
 				ctx.beginPath();
-				ctx.moveTo(x1,y1);
-				ctx.lineTo(x2,y2);
+				ctx.moveTo(mesh.vec1.x, mesh.vec1.y);
+				ctx.lineTo(mesh.vec2.x, mesh.vec2.y);
+				ctx.lineTo(mesh.vec3.x, mesh.vec3.y);
+				ctx.lineTo(mesh.vec1.x, mesh.vec1.y);
+				ctx.fill();
 				ctx.stroke();
 				ctx.closePath();
 			}
@@ -86,6 +95,7 @@
 			window.onload = function(){
 				var ctx = CanvasInit("canvas1", document.body.clientWidth, document.body.clientHeight);
 				CanvasDrawVector2D(ctx, new Vector2D(100,100));
+				CanvasDrawMesh2D(ctx, new Mesh2D(new Vector2D(100,100), new Vector2D(200,100), new Vector2D(100,200)), "rgba(0,144,255,0.5)");
 			}
 		</script>
 	</body>
