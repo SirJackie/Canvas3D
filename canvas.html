@@ -53,6 +53,12 @@
 				this.w = 1;
 			}
 
+			function Mesh4D(vec1,vec2,vec3){
+				this.vec1 = vec1;
+				this.vec2 = vec2;
+				this.vec3 = vec3;
+			}
+
 			/*
 			** Canvas Functions
 			*/
@@ -99,12 +105,19 @@
 				return new Vector2D(x2d,y2d);
 			}
 
+			function Mesh4D2Mesh2D(camera,mesh4d){
+				return new Mesh2D(Vector4D2Vector2D(camera, mesh4d.vec1),
+								  Vector4D2Vector2D(camera, mesh4d.vec2),
+								  Vector4D2Vector2D(camera, mesh4d.vec3));
+			}
+
 			window.onload = function(){
 				var cam1 = new Camera(0, 0, 0, 0, 0, 0, document.body.clientWidth, document.body.clientHeight);
 				var ctx  = CanvasInit("canvas1", cam1.screenWidth, cam1.screenHeight);
-				CanvasDrawVector2D(ctx, Vector4D2Vector2D(cam1, new Vector4D(1,1,1)));
-				CanvasDrawVector2D(ctx, Vector4D2Vector2D(cam1, new Vector4D(4,1,1)));
-				CanvasDrawVector2D(ctx, Vector4D2Vector2D(cam1, new Vector4D(1,4,1)));
+				var mesh4d1 = new Mesh4D(new Vector4D(1,1,1), new Vector4D(4,1,1), new Vector4D(1,4,1));
+				var mesh2d1 = Mesh4D2Mesh2D(cam1,mesh4d1);
+				console.log(mesh2d1);
+				CanvasDrawMesh2D(ctx, mesh2d1, "rgba(0,144,255,0.5)");
 			}
 		</script>
 	</body>
