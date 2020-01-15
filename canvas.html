@@ -138,6 +138,30 @@
 									 m30, m31, m32, m33);
 			}
 
+			function cosd(x){
+				return Math.cos(x * 0.017453293);
+			}
+
+			function sind(x){
+				return Math.sin(x * 0.017453293);
+			}
+
+			function tand(x){
+				return Math.tan(x * 0.017453293);
+			}
+
+			function acosd(x){
+				return Math.acos(x * 0.017453293);
+			}
+
+			function asind(x){
+				return Math.asin(x * 0.017453293);
+			}
+
+			function atand(x){
+				return Math.atan(x * 0.017453293);
+			}
+			
 			/*
 			** Canvas Functions
 			*/
@@ -219,7 +243,7 @@
 									  8, 5, 4, 3,
 									  4, 2, 7, 9);
 				var c = Matrix4X4timesMatrix4X4(a, b);
-				console.log(c);
+				console.log(sind(30));
 
 				cam1 = new Camera(5, 5,5, 0, 0, 0, document.body.clientWidth, document.body.clientHeight);//global variable,with no "var"
 				var ctx  = CanvasInit("canvas1", cam1.screenWidth, cam1.screenHeight);
