@@ -248,7 +248,7 @@
 				var vecx = final.m00;
 				var vecy = final.m01;
 				var vecz = final.m02;
-				
+
 				var x2d     = (vecx - camera.x) / (vecz*zfix + camera.z*zfix);
 				var y2d     = (vecy - camera.y) / (vecz*zfix + camera.z*zfix);
 				var xScreen = (camera.screenWidth  / 2) + (x2d * zoom);
@@ -281,7 +281,7 @@
 									  4, 2, 7, 9);
 				var c = Matrix4X4timesMatrix4X4(a, b);
 
-				cam1 = new Camera(5, 5, 5, 30, 0, 0, document.body.clientWidth, document.body.clientHeight);//global variable,with no "var"
+				cam1 = new Camera(5, 5, 5, 0, 0, 0, document.body.clientWidth, document.body.clientHeight);//global variable,with no "var"
 				var ctx  = CanvasInit("canvas1", cam1.screenWidth, cam1.screenHeight);
 				var obj1 = new Object4D([new Mesh4D(new Vector4D(1,1,1), new Vector4D(4,1,1), new Vector4D(1,4,1)), //front
 										 new Mesh4D(new Vector4D(1,4,1), new Vector4D(4,4,1), new Vector4D(4,1,1)), //front
@@ -302,34 +302,53 @@
 					world4d1.PlaceObject4D(obj1,2.5,2.5,2.5);
 					var world2d1 = World4D2World2D(cam1,world4d1);
 					CanvasDrawWorld2D(ctx,world2d1,"rgba(0,144,255,0.5)");
-					//requestAnimationFrame(main);
+					requestAnimationFrame(main);
 				});
 			}
 
 			window.onkeydown=function(){
 				if(event.keyCode == 65){
-					//alert('a');
+					//a:left move
 					cam1.x -= 0.3;
 				}
 				else if(event.keyCode == 68){
-					//alert('d');
+					//d:right move
 					cam1.x += 0.3;
 				}
-				else if(event.keyCode == 74){
-					//alert('j');
-					cam1.y -= 0.3;
-				}
-				else if(event.keyCode == 75){
-					//alert('k');
-					cam1.y += 0.3;
-				}
 				else if(event.keyCode == 87){
-					//alert('w');
+					//w:forward
 					cam1.z -= 0.1;
 				}
 				else if(event.keyCode == 83){
-					//alert('s');
+					//s:backward
 					cam1.z += 0.1;
+				}
+				else if(event.keyCode == 90){
+					//z:down move
+					cam1.y -= 0.3;
+				}
+				else if(event.keyCode == 88){
+					//x:up move
+					cam1.y += 0.3;
+				}
+				else if(event.keyCode == 73){
+					//i:up rotation
+					cam1.angleX -= 1;
+				}
+				else if(event.keyCode == 75){
+					//k:down rotation
+					cam1.angleX += 1;
+				}
+				else if(event.keyCode == 74){
+					//j:left rotation
+					cam1.angleY += 1;
+				}
+				else if(event.keyCode == 76){
+					//l:right rotation
+					cam1.angleY -= 1;
+				}
+				else{
+					//alert(event.keyCode);
 				}
 			}
 		</script>
