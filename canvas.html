@@ -133,9 +133,12 @@
 			*/
 
 			function Vector4D2Vector2D(camera,vector){
-				var x2d = (camera.screenWidth  / 2) + ((vector.x - camera.x) / (vector.z + camera.z) * 100);
-				var y2d = (camera.screenHeight / 2) - ((vector.y - camera.y) / (vector.z + camera.z) * 100);
-				return new Vector2D(x2d,y2d);
+				var zoom    = 200;
+				var x2d     = (vector.x - camera.x) / (vector.z + camera.z);
+				var y2d     = (vector.y - camera.y) / (vector.z + camera.z);
+				var xScreen = (camera.screenWidth  / 2) + (x2d * zoom);
+				var yScreen = (camera.screenHeight / 2) + (y2d * zoom);
+				return new Vector2D(xScreen, yScreen);
 			}
 
 			function Mesh4D2Mesh2D(camera,mesh4d){
