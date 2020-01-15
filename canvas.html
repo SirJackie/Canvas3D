@@ -298,7 +298,7 @@
 										 ]);
 				var world4d1 = new World4D();
 				var area = 70;
-				for(var i = 0; i < 15; i++){
+				for(var i = 0; i < 8; i++){
 					world4d1.PlaceObject4D(obj1, Math.random()*area   , Math.random()*area/2   , area/2+Math.random()*area);
 					world4d1.PlaceObject4D(obj1, Math.random()*area*-1, Math.random()*area/2   , area/2+Math.random()*area);
 					world4d1.PlaceObject4D(obj1, Math.random()*area   , Math.random()*area/2*-1, area/2+Math.random()*area);
@@ -313,51 +313,104 @@
 				});
 			}
 
-			window.onkeydown=function(){
-				if(event.keyCode == 65){
+			var isKeyFirstPressPressing  = false;
+			var isKeyPressing      = false;
+			var keycode            = -1;
+			var latestKeycode      = -1;
+			var latestKeypressTime = -1;
+
+			window.onkeydown = function(event){
+				var nowdate = (new Date()).valueOf();
+
+				if(event.keyCode != keycode){
+					//pressing first key
+					isKeyFirstPressPressing  = true;
+					isKeyPressing = false;
+					keycode = event.keyCode;
+				}
+
+				else if(event.keyCode == keycode && isKeyFirstPressPressing  == true && (nowdate - latestKeypressTime) < 300){
+					//pressing second key
+					isKeyFirstPressPressing  = false;
+					isKeyPressing = true;
+				}
+
+				else if(event.keyCode == keycode && isKeyFirstPressPressing  == false && (nowdate - latestKeypressTime) < 60){
+					//pressing third key
+					isKeyPressing = true;
+				}
+
+				else{
+					isKeyPressing = false;
+					keycode = -1;
+				}
+				latestKeypressTime = nowdate;
+			}
+
+			window.onkeyup = function(){
+				var nowdate = (new Date()).valueOf();
+				setTimeout(function(){
+					isKeyPressing = false;
+					keycode = -1;
+				},30);
+				latestKeypressTime = nowdate;
+			}
+
+			setInterval(function(){
+				if(keycode == 65){
 					//a:left move
 					cam1.x -= 0.3;
+					_event = null;
 				}
-				else if(event.keyCode == 68){
+				else if(keycode == 68){
 					//d:right move
 					cam1.x += 0.3;
+					_event = null;
 				}
-				else if(event.keyCode == 87){
+				else if(keycode == 87){
 					//w:forward
 					cam1.z -= 0.1;
+					_event = null;
 				}
-				else if(event.keyCode == 83){
+				else if(keycode == 83){
 					//s:backward
 					cam1.z += 0.1;
+					_event = null;
 				}
-				else if(event.keyCode == 90){
+				else if(keycode == 90){
 					//z:down move
 					cam1.y -= 0.3;
+					_event = null;
 				}
-				else if(event.keyCode == 88){
+				else if(keycode == 88){
 					//x:up move
 					cam1.y += 0.3;
+					_event = null;
 				}
-				else if(event.keyCode == 73){
+				else if(keycode == 73){
 					//i:up rotation
 					cam1.angleX -= 1;
+					_event = null;
 				}
-				else if(event.keyCode == 75){
+				else if(keycode == 75){
 					//k:down rotation
 					cam1.angleX += 1;
+					_event = null;
 				}
-				else if(event.keyCode == 74){
+				else if(keycode == 74){
 					//j:left rotation
 					cam1.angleY += 1;
+					_event = null;
 				}
-				else if(event.keyCode == 76){
+				else if(keycode == 76){
 					//l:right rotation
 					cam1.angleY -= 1;
+					_event = null;
 				}
 				else{
 					//alert(event.keyCode);
 				}
-			}
+			},20);
 		</script>
 	</body>
 </html>
