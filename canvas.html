@@ -156,14 +156,18 @@
 			window.onload = function(){
 				cam1 = new Camera(5, 5, 0, 0, 0, 0, document.body.clientWidth, document.body.clientHeight);//global variable,with no "var"
 				var ctx  = CanvasInit("canvas1", cam1.screenWidth, cam1.screenHeight);
-				var obj1 = new Object4D([new Mesh4D(new Vector4D(1,1,1), new Vector4D(4,1,1), new Vector4D(1,4,1)),
-										 new Mesh4D(new Vector4D(1,4,1), new Vector4D(4,4,1), new Vector4D(4,1,1)),
-										 new Mesh4D(new Vector4D(1,4,4), new Vector4D(1,1,1), new Vector4D(1,1,1)),
-										 new Mesh4D(new Vector4D(1,4,4), new Vector4D(1,4,1), new Vector4D(1,1,1)),
-										 new Mesh4D(new Vector4D(4,4,4), new Vector4D(4,1,4), new Vector4D(4,1,1)),
-										 new Mesh4D(new Vector4D(4,4,4), new Vector4D(4,4,1), new Vector4D(4,1,1)),
-										 new Mesh4D(new Vector4D(1,1,4), new Vector4D(4,1,4), new Vector4D(1,4,4)),
-										 new Mesh4D(new Vector4D(1,1,4), new Vector4D(4,4,4), new Vector4D(4,1,4))
+				var obj1 = new Object4D([new Mesh4D(new Vector4D(1,1,1), new Vector4D(4,1,1), new Vector4D(1,4,1)), //front
+										 new Mesh4D(new Vector4D(1,4,1), new Vector4D(4,4,1), new Vector4D(4,1,1)), //front
+										 new Mesh4D(new Vector4D(1,4,4), new Vector4D(1,1,4), new Vector4D(1,1,1)), //left
+										 new Mesh4D(new Vector4D(1,4,4), new Vector4D(1,4,1), new Vector4D(1,1,1)), //left
+										 new Mesh4D(new Vector4D(4,4,4), new Vector4D(4,1,4), new Vector4D(4,1,1)), //right
+										 new Mesh4D(new Vector4D(4,4,4), new Vector4D(4,4,1), new Vector4D(4,1,1)), //right
+										 new Mesh4D(new Vector4D(1,1,4), new Vector4D(4,1,4), new Vector4D(1,4,4)), //back
+										 new Mesh4D(new Vector4D(1,4,4), new Vector4D(4,4,4), new Vector4D(4,1,4)), //back
+										 new Mesh4D(new Vector4D(1,4,1), new Vector4D(1,4,4), new Vector4D(4,4,4)), //up
+										 new Mesh4D(new Vector4D(1,4,1), new Vector4D(4,4,1), new Vector4D(4,4,4)), //up
+										 new Mesh4D(new Vector4D(1,1,1), new Vector4D(1,1,4), new Vector4D(4,1,4)), //down
+										 new Mesh4D(new Vector4D(1,1,1), new Vector4D(4,1,1), new Vector4D(4,1,4)), //down
 										 ]);
 				requestAnimationFrame(function main(){
 					ctx.clearRect(0,0,cam1.screenWidth,cam1.screenHeight);
