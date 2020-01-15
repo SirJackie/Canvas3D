@@ -134,8 +134,9 @@
 
 			function Vector4D2Vector2D(camera,vector){
 				var zoom    = 200;
-				var x2d     = (vector.x - camera.x) / (vector.z + camera.z);
-				var y2d     = (vector.y - camera.y) / (vector.z + camera.z);
+				var zfix    = 0.35;
+				var x2d     = (vector.x - camera.x) / (vector.z*zfix + camera.z*zfix);
+				var y2d     = (vector.y - camera.y) / (vector.z*zfix + camera.z*zfix);
 				var xScreen = (camera.screenWidth  / 2) + (x2d * zoom);
 				var yScreen = (camera.screenHeight / 2) + (y2d * zoom);
 				return new Vector2D(xScreen, yScreen);
@@ -157,7 +158,7 @@
 			}
 			
 			window.onload = function(){
-				cam1 = new Camera(5, 5, 0, 0, 0, 0, document.body.clientWidth, document.body.clientHeight);//global variable,with no "var"
+				cam1 = new Camera(5, 5,5, 0, 0, 0, document.body.clientWidth, document.body.clientHeight);//global variable,with no "var"
 				var ctx  = CanvasInit("canvas1", cam1.screenWidth, cam1.screenHeight);
 				var obj1 = new Object4D([new Mesh4D(new Vector4D(1,1,1), new Vector4D(4,1,1), new Vector4D(1,4,1)), //front
 										 new Mesh4D(new Vector4D(1,4,1), new Vector4D(4,4,1), new Vector4D(4,1,1)), //front
