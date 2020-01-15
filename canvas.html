@@ -107,6 +107,13 @@
 				this.m33 = a33;
 			}
 
+			function Matrix4X1(a00, a01, a02, a03){
+				this.m00 = a00;
+				this.m01 = a01;
+				this.m02 = a02;
+				this.m03 = a03;
+			}
+
 			/*
 			** Calculation Functions
 			*/
@@ -136,6 +143,15 @@
 								     m10, m11, m12, m13,
 									 m20, m21, m22, m23,
 									 m30, m31, m32, m33);
+			}
+
+			function Matrix4X1timesMatrix4X4(a, b){
+				var m00 = (a.m00 * b.m00) + (a.m01*b.m10) + (a.m02*b.m20) + (a.m03*b.m30);
+				var m01 = (a.m00 * b.m01) + (a.m01*b.m11) + (a.m02*b.m21) + (a.m03*b.m31);
+				var m02 = (a.m00 * b.m02) + (a.m01*b.m12) + (a.m02*b.m22) + (a.m03*b.m32);
+				var m03 = (a.m00 * b.m03) + (a.m01*b.m13) + (a.m02*b.m23) + (a.m03*b.m33);
+
+				return new Matrix4X1(m00, m01, m02, m03);
 			}
 
 			function cosd(x){
@@ -212,9 +228,6 @@
 			function Vector4D2Vector2D(camera,vector){
 				var zoom    = 200;
 				var zfix    = 0.35;
-				var vecx = vector.x;
-				var vecy = vector.y;
-				var vecz = vector.z;
 				var ZRotationMatrix = new Matrix4X4(cosd(camera.angleZ),      sind(camera.angleZ),     0,                        0,
 													-1*sind(camera.angleZ),   cosd(camera.angleZ),     0,                        0,
 													0,                        0,                       1,                        0,
@@ -231,8 +244,11 @@
 													0,                        0,                       0,                        1);
 				
 				var m = Matrix4X4timesMatrix4X4(Matrix4X4timesMatrix4X4(ZRotationMatrix, YRotationMatrix), XRotationMatrix);
-				console.log("begin");
-				console.log(m);
+				var final = Matrix4X1timesMatrix4X4(new Matrix4X1(vector.x, vector.y, vector.z, 1), m);
+				var vecx = final.m00;
+				var vecy = final.m01;
+				var vecz = final.m02;
+				
 				var x2d     = (vecx - camera.x) / (vecz*zfix + camera.z*zfix);
 				var y2d     = (vecy - camera.y) / (vecz*zfix + camera.z*zfix);
 				var xScreen = (camera.screenWidth  / 2) + (x2d * zoom);
