@@ -281,7 +281,7 @@
 									  4, 2, 7, 9);
 				var c = Matrix4X4timesMatrix4X4(a, b);
 
-				cam1 = new Camera(5, 5, 5, 0, 0, 0, document.body.clientWidth, document.body.clientHeight);//global variable,with no "var"
+				cam1 = new Camera(0, 0, 0, 0, 0, 0, document.body.clientWidth, document.body.clientHeight);//global variable,with no "var"
 				var ctx  = CanvasInit("canvas1", cam1.screenWidth, cam1.screenHeight);
 				var obj1 = new Object4D([new Mesh4D(new Vector4D(1,1,1), new Vector4D(4,1,1), new Vector4D(1,4,1)), //front
 										 new Mesh4D(new Vector4D(1,4,1), new Vector4D(4,4,1), new Vector4D(4,1,1)), //front
@@ -299,7 +299,7 @@
 				requestAnimationFrame(function main(){
 					ctx.clearRect(0,0,cam1.screenWidth,cam1.screenHeight);
 					var world4d1 = new World4D();
-					world4d1.PlaceObject4D(obj1,2.5,2.5,2.5);
+					world4d1.PlaceObject4D(obj1,-2.5,-2.5,5);
 					var world2d1 = World4D2World2D(cam1,world4d1);
 					CanvasDrawWorld2D(ctx,world2d1,"rgba(0,144,255,0.5)");
 					requestAnimationFrame(main);
