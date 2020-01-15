@@ -28,9 +28,9 @@
 				this.x            = positionX;
 				this.y            = positionY;
 				this.z            = positionZ;
-				this.anglex       = angleX;
-				this.angley       = angleY;
-				this.anglez       = angleZ;
+				this.angleX       = angleX;
+				this.angleY       = angleY;
+				this.angleZ       = angleZ;
 				this.screenWidth  = screenWidth;
 				this.screenHeight = screenHeight;
 			}
@@ -212,8 +212,29 @@
 			function Vector4D2Vector2D(camera,vector){
 				var zoom    = 200;
 				var zfix    = 0.35;
-				var x2d     = (vector.x - camera.x) / (vector.z*zfix + camera.z*zfix);
-				var y2d     = (vector.y - camera.y) / (vector.z*zfix + camera.z*zfix);
+				var vecx = vector.x;
+				var vecy = vector.y;
+				var vecz = vector.z;
+				var ZRotationMatrix = new Matrix4X4(cosd(camera.angleZ),      sind(camera.angleZ),     0,                        0,
+													-1*sind(camera.angleZ),   cosd(camera.angleZ),     0,                        0,
+													0,                        0,                       1,                        0,
+													0,                        0,                       0,                        1);
+
+				var YRotationMatrix = new Matrix4X4(cosd(camera.angleY),      0,                       -1*sind(camera.angleY),   0,
+													0,                        1,                       0,                        0,
+													sind(camera.angleY),      0,                       cosd(camera.angleY),      0,
+													0,                        0,                       0,                        1);
+
+				var XRotationMatrix = new Matrix4X4(1,                        0,                       0,                        0,
+													0,                        cosd(camera.angleX),     sind(camera.angleX),      0,
+													0,                        -1*sind(camera.angleX),  cosd(camera.angleX),      0,
+													0,                        0,                       0,                        1);
+				
+				var m = Matrix4X4timesMatrix4X4(Matrix4X4timesMatrix4X4(ZRotationMatrix, YRotationMatrix), XRotationMatrix);
+				console.log("begin");
+				console.log(m);
+				var x2d     = (vecx - camera.x) / (vecz*zfix + camera.z*zfix);
+				var y2d     = (vecy - camera.y) / (vecz*zfix + camera.z*zfix);
 				var xScreen = (camera.screenWidth  / 2) + (x2d * zoom);
 				var yScreen = (camera.screenHeight / 2) + (y2d * zoom);
 				return new Vector2D(xScreen, yScreen);
@@ -243,9 +264,8 @@
 									  8, 5, 4, 3,
 									  4, 2, 7, 9);
 				var c = Matrix4X4timesMatrix4X4(a, b);
-				console.log(sind(30));
 
-				cam1 = new Camera(5, 5,5, 0, 0, 0, document.body.clientWidth, document.body.clientHeight);//global variable,with no "var"
+				cam1 = new Camera(5, 5, 5, 30, 0, 0, document.body.clientWidth, document.body.clientHeight);//global variable,with no "var"
 				var ctx  = CanvasInit("canvas1", cam1.screenWidth, cam1.screenHeight);
 				var obj1 = new Object4D([new Mesh4D(new Vector4D(1,1,1), new Vector4D(4,1,1), new Vector4D(1,4,1)), //front
 										 new Mesh4D(new Vector4D(1,4,1), new Vector4D(4,4,1), new Vector4D(4,1,1)), //front
@@ -266,7 +286,7 @@
 					world4d1.PlaceObject4D(obj1,2.5,2.5,2.5);
 					var world2d1 = World4D2World2D(cam1,world4d1);
 					CanvasDrawWorld2D(ctx,world2d1,"rgba(0,144,255,0.5)");
-					requestAnimationFrame(main);
+					//requestAnimationFrame(main);
 				});
 			}
 
