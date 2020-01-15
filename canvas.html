@@ -85,6 +85,59 @@
 				}
 			}
 
+			function Matrix4X4(a00, a01, a02, a03, a10, a11, a12, a13, a20, a21, a22, a23, a30, a31, a32, a33){
+				this.m00 = a00;
+				this.m01 = a01;
+				this.m02 = a02;
+				this.m03 = a03;
+
+				this.m10 = a10;
+				this.m11 = a11;
+				this.m12 = a12;
+				this.m13 = a13;
+
+				this.m20 = a20;
+				this.m21 = a21;
+				this.m22 = a22;
+				this.m23 = a23;
+
+				this.m30 = a30;
+				this.m31 = a31;
+				this.m32 = a32;
+				this.m33 = a33;
+			}
+
+			/*
+			** Calculation Functions
+			*/
+
+			function Matrix4X4timesMatrix4X4(a, b){
+				var m00 = (a.m00 * b.m00) + (a.m01*b.m10) + (a.m02*b.m20) + (a.m03*b.m30);
+				var m01 = (a.m00 * b.m01) + (a.m01*b.m11) + (a.m02*b.m21) + (a.m03*b.m31);
+				var m02 = (a.m00 * b.m02) + (a.m01*b.m12) + (a.m02*b.m22) + (a.m03*b.m32);
+				var m03 = (a.m00 * b.m03) + (a.m01*b.m13) + (a.m02*b.m23) + (a.m03*b.m33);
+								 
+				var m10 = (a.m10 * b.m00) + (a.m11*b.m10) + (a.m12*b.m20) + (a.m13*b.m30);
+				var m11 = (a.m10 * b.m01) + (a.m11*b.m11) + (a.m12*b.m21) + (a.m13*b.m31);
+				var m12 = (a.m10 * b.m02) + (a.m11*b.m12) + (a.m12*b.m22) + (a.m13*b.m32);
+				var m13 = (a.m10 * b.m03) + (a.m11*b.m13) + (a.m12*b.m23) + (a.m13*b.m33);
+								 
+				var m20 = (a.m20 * b.m00) + (a.m21*b.m10) + (a.m22*b.m20) + (a.m23*b.m30);
+				var m21 = (a.m20 * b.m01) + (a.m21*b.m11) + (a.m22*b.m21) + (a.m23*b.m31);
+				var m22 = (a.m20 * b.m02) + (a.m21*b.m12) + (a.m22*b.m22) + (a.m23*b.m32);
+				var m23 = (a.m20 * b.m03) + (a.m21*b.m13) + (a.m22*b.m23) + (a.m23*b.m33);
+								 
+				var m30 = (a.m30 * b.m00) + (a.m31*b.m10) + (a.m32*b.m20) + (a.m33*b.m30);
+				var m31 = (a.m30 * b.m01) + (a.m31*b.m11) + (a.m32*b.m21) + (a.m33*b.m31);
+				var m32 = (a.m30 * b.m02) + (a.m31*b.m12) + (a.m32*b.m22) + (a.m33*b.m32);
+				var m33 = (a.m30 * b.m03) + (a.m31*b.m13) + (a.m32*b.m23) + (a.m33*b.m33);
+
+				return new Matrix4X4(m00, m01, m02, m03,
+								     m10, m11, m12, m13,
+									 m20, m21, m22, m23,
+									 m30, m31, m32, m33);
+			}
+
 			/*
 			** Canvas Functions
 			*/
@@ -153,11 +206,19 @@
 				for(var i = 0; i < world4d.meshlist.length; i++){
 					world2d.meshlist.push(Mesh4D2Mesh2D(camera, world4d.meshlist[i]));
 				}
-				//console.log(camera.x);
 				return world2d;
 			}
 			
 			window.onload = function(){
+				var one =                       new Matrix4X4(1, 0, 0, 0,
+															   0, 1, 0, 0,
+															   0, 0, 1, 0,
+															   0, 0, 0, 1);
+				//console.log(one);
+
+				var m = Matrix4X4timesMatrix4X4(one, one);
+				console.log(m);
+
 				cam1 = new Camera(5, 5,5, 0, 0, 0, document.body.clientWidth, document.body.clientHeight);//global variable,with no "var"
 				var ctx  = CanvasInit("canvas1", cam1.screenWidth, cam1.screenHeight);
 				var obj1 = new Object4D([new Mesh4D(new Vector4D(1,1,1), new Vector4D(4,1,1), new Vector4D(1,4,1)), //front
@@ -179,7 +240,6 @@
 					world4d1.PlaceObject4D(obj1,2.5,2.5,2.5);
 					var world2d1 = World4D2World2D(cam1,world4d1);
 					CanvasDrawWorld2D(ctx,world2d1,"rgba(0,144,255,0.5)");
-					console.log(cam1.x);
 					requestAnimationFrame(main);
 				});
 			}
