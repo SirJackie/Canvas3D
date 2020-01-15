@@ -152,9 +152,9 @@
 				//console.log(camera.x);
 				return world2d;
 			}
-
-			function main(){
-				var cam1 = new Camera(5, 5, 0, 0, 0, 0, document.body.clientWidth, document.body.clientHeight);//global variable,with no "var"
+			
+			window.onload = function(){
+				cam1 = new Camera(5, 5, 0, 0, 0, 0, document.body.clientWidth, document.body.clientHeight);//global variable,with no "var"
 				var ctx  = CanvasInit("canvas1", cam1.screenWidth, cam1.screenHeight);
 				var obj1 = new Object4D([new Mesh4D(new Vector4D(1,1,1), new Vector4D(4,1,1), new Vector4D(1,4,1)),
 										 new Mesh4D(new Vector4D(1,4,1), new Vector4D(4,4,1), new Vector4D(4,1,1)),
@@ -165,18 +165,14 @@
 										 new Mesh4D(new Vector4D(1,1,4), new Vector4D(4,1,4), new Vector4D(1,4,4)),
 										 new Mesh4D(new Vector4D(1,1,4), new Vector4D(4,4,4), new Vector4D(4,1,4))
 										 ]);
-				var world4d1 = new World4D();
-				world4d1.PlaceObject4D(obj1,2.5,2.5,2.5);
-				var world2d1 = World4D2World2D(cam1,world4d1);
-				CanvasDrawWorld2D(ctx,world2d1,"rgba(0,144,255,0.5)");
-				console.log(cam1.x);
-				cam1.x = 10;
-
-				requestAnimationFrame(main);
-			}
-			
-			window.onload = function(){
-				requestAnimationFrame(main);
+				requestAnimationFrame(function main(){
+					var world4d1 = new World4D();
+					world4d1.PlaceObject4D(obj1,2.5,2.5,2.5);
+					var world2d1 = World4D2World2D(cam1,world4d1);
+					CanvasDrawWorld2D(ctx,world2d1,"rgba(0,144,255,0.5)");
+					console.log(cam1.x);
+					requestAnimationFrame(main);
+				});
 			}
 
 			window.onkeydown=function(){
