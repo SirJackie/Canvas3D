@@ -425,7 +425,32 @@
 					//m:z-right rotation;
 					cam1.angleZ += 1;
 				}
-			},20);
+			}, 30);
+
+			var canvas = document.getElementById('canvas1');
+			var lastx,lasty,nowx,nowy;
+			canvas.addEventListener('touchstart',function(){
+				event.preventDefault();
+				nowx = Math.floor(event.targetTouches[0].pageX);
+				nowy = Math.floor(event.targetTouches[0].pageY);
+				lastx = Math.floor(event.targetTouches[0].pageX);
+				lasty = Math.floor(event.targetTouches[0].pageY);
+			});
+			canvas.addEventListener('touchmove',function(){
+				event.preventDefault();
+				lastx = nowx;
+				lasty = nowy;
+				nowx = Math.floor(event.targetTouches[0].pageX);
+				nowy = Math.floor(event.targetTouches[0].pageY);
+				cam1.angleY += (nowx-lastx)*0.05;
+				cam1.angleX += (nowy-lasty)*0.05;
+			}); 
+			canvas.addEventListener('touchend',function(){
+				event.preventDefault();
+				//nowx = Math.floor(event.touches[0].pageX);
+				//nowy = Math.floor(event.touches[0].pageY);
+				//box.innerHTML = "Touchend(" + nowx + "," + nowy + ")";
+			});
 		</script>
 	</body>
 </html>
