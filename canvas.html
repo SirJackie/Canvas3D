@@ -253,13 +253,14 @@
 			function Vector4D2Vector2D(camera,vector){
 				var zoom    = 200;
 				var zfix    = 0.35;
-				var final = Matrix4X1timesMatrix4X4(new Matrix4X1(vector.x, vector.y, vector.z, 1), camera.rotationMatrix);
+				var final = Matrix4X1timesMatrix4X4(new Matrix4X1(vector.x - camera.x, vector.y - camera.y, vector.z - camera.z, 1), camera.rotationMatrix);
 				var vecx = final.m00;
 				var vecy = final.m01;
 				var vecz = final.m02;
 
-				var x2d     = (vecx - camera.x) / (vecz*zfix + camera.z*zfix);
-				var y2d     = (vecy - camera.y) / (vecz*zfix + camera.z*zfix);
+				var x2d     = (vecx) / (vecz*zfix);
+				var y2d     = (vecy) / (vecz*zfix);
+
 				var xScreen = (camera.screenWidth  / 2) + (x2d * zoom);
 				var yScreen = (camera.screenHeight / 2) + (y2d * zoom);
 				return new Vector2D(xScreen, yScreen);
@@ -369,12 +370,12 @@
 				}
 				else if(keycode == 87){
 					//w:forward
-					cam1.z -= 0.1;
+					cam1.z += 0.1;
 					_event = null;
 				}
 				else if(keycode == 83){
 					//s:backward
-					cam1.z += 0.1;
+					cam1.z -= 0.1;
 					_event = null;
 				}
 				else if(keycode == 90){
