@@ -442,7 +442,7 @@
 				lasty = nowy;
 				nowx = Math.floor(event.targetTouches[0].pageX);
 				nowy = Math.floor(event.targetTouches[0].pageY);
-				cam1.angleY += (nowx-lastx)*0.05;
+				cam1.angleY -= (nowx-lastx)*0.05;
 				cam1.angleX += (nowy-lasty)*0.05;
 			}); 
 			canvas.addEventListener('touchend',function(){
