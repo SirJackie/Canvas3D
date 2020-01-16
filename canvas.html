@@ -254,17 +254,16 @@
 			*/
 
 			function Vector4D2Vector2D(camera,vector){
-				var zoom    = 200;
-				var zfix    = 0.35;
+				var zoom  = 200;
+				var zfix  = 0.35;
 				var final = Matrix4X1timesMatrix4X4(new Matrix4X1(vector.x - camera.x, vector.y - camera.y, vector.z - camera.z, 1), camera.rotationMatrix);
-				var vecx = final.m00;
-				var vecy = final.m01;
-				var vecz = final.m02;
+				var vecx  = final.m00;
+				var vecy  = final.m01;
+				var vecz  = final.m02;
 
 				if(vecz <= 0){
 					return new Vector2D(-1,-1); //don't show this vector
-				}
-				else{
+				} else {
 					var x2d     = (vecx) / (vecz*zfix);
 					var y2d     = (vecy) / (vecz*zfix);
 
@@ -323,10 +322,10 @@
 			}
 
 			var isKeyFirstTimePressing  = false;
-			var isKeySecondTimePressing      = false;
-			var keycode            = -1;
-			var latestKeycode      = -1;
-			var latestKeypressTime = -1;
+			var isKeySecondTimePressing = false;
+			var keycode                 = -1;
+			var latestKeycode           = -1;
+			var latestKeypressTime      = -1;
 
 			window.onkeydown = function(event){
 				var nowdate = (new Date()).valueOf();
