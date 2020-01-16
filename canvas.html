@@ -121,6 +121,7 @@
 			/*
 			** Structs
 			*/
+			
 			function Camera(positionX, positionY, positionZ, angleX, angleY, angleZ, screenWidth, screenHeight){
 				this.x              = positionX;
 				this.y              = positionY;
@@ -321,9 +322,12 @@
 				});
 			}
 
+			console.log(window.onkeydown);
+
 			/*
-			** Input functions
+			** Input structs
 			*/
+
 			function KeyboardEvent(){
 				this.isKeyFirstTimePressing  = false;
 				this.isKeySecondTimePressing = false;
@@ -372,82 +376,89 @@
 				}
 			}
 			
-			//Keyboard Control
-			var keyboard1 = new KeyboardEvent();
-			keyboard1.Init();
+			/*
+			** Input actions
+			*/
 
-			setInterval(function(){
-				if(keyboard1.keycode == 65){
-					//a:left move
-					cam1.x -= 0.3;
-				}
-				else if(keyboard1.keycode == 68){
-					//d:right move
-					cam1.x += 0.3;
-				}
-				else if(keyboard1.keycode == 87){
-					//w:forward
-					cam1.z += 0.1;
-				}
-				else if(keyboard1.keycode == 83){
-					//s:backward
-					cam1.z -= 0.1;
-				}
-				else if(keyboard1.keycode == 90){
-					//z:down move
-					cam1.y -= 0.3;
-				}
-				else if(keyboard1.keycode == 88){
-					//x:up move
-					cam1.y += 0.3;
-				}
-				else if(keyboard1.keycode == 73){
-					//i:up rotation
-					cam1.angleX -= 1;
-				}
-				else if(keyboard1.keycode == 75){
-					//k:down rotation
-					cam1.angleX += 1;
-				}
-				else if(keyboard1.keycode == 74){
-					//j:left rotation
-					cam1.angleY += 1;
-				}
-				else if(keyboard1.keycode == 76){
-					//l:right rotation
-					cam1.angleY -= 1;
-				}
-				else if(keyboard1.keycode == 78){
-					//n:z-left rotation;
-					cam1.angleZ -= 1;
-				}
-				else if(keyboard1.keycode == 77){
-					//m:z-right rotation;
-					cam1.angleZ += 1;
-				}
-			}, 30);
+			if ('ontouchstart' in document.documentElement) {
+				//mobile,use touch control
+				var canvas = document.getElementById('canvas1');
+				var lastx,lasty,nowx,nowy;
+				canvas.addEventListener('touchstart',function(){
+					event.preventDefault();
+					nowx = Math.floor(event.targetTouches[0].pageX);
+					nowy = Math.floor(event.targetTouches[0].pageY);
+					lastx = Math.floor(event.targetTouches[0].pageX);
+					lasty = Math.floor(event.targetTouches[0].pageY);
+				});
+				canvas.addEventListener('touchmove',function(){
+					event.preventDefault();
+					lastx = nowx;
+					lasty = nowy;
+					nowx = Math.floor(event.targetTouches[0].pageX);
+					nowy = Math.floor(event.targetTouches[0].pageY);
+					cam1.angleY -= (nowx-lastx)*document.body.clientWidth/2000;
+					cam1.angleX += (nowy-lasty)*document.body.clientWidth/2000;
+				}); 
+				canvas.addEventListener('touchend',function(){
+					event.preventDefault();
+				});
+			} else {
+				//pc,use keyboard control
+				var keyboard1 = new KeyboardEvent();
+				keyboard1.Init();
 
-			var canvas = document.getElementById('canvas1');
-			var lastx,lasty,nowx,nowy;
-			canvas.addEventListener('touchstart',function(){
-				event.preventDefault();
-				nowx = Math.floor(event.targetTouches[0].pageX);
-				nowy = Math.floor(event.targetTouches[0].pageY);
-				lastx = Math.floor(event.targetTouches[0].pageX);
-				lasty = Math.floor(event.targetTouches[0].pageY);
-			});
-			canvas.addEventListener('touchmove',function(){
-				event.preventDefault();
-				lastx = nowx;
-				lasty = nowy;
-				nowx = Math.floor(event.targetTouches[0].pageX);
-				nowy = Math.floor(event.targetTouches[0].pageY);
-				cam1.angleY -= (nowx-lastx)*document.body.clientWidth/2000;
-				cam1.angleX += (nowy-lasty)*document.body.clientWidth/2000;
-			}); 
-			canvas.addEventListener('touchend',function(){
-				event.preventDefault();
-			});
+				setInterval(function(){
+					if(keyboard1.keycode == 65){
+						//a:left move
+						cam1.x -= 0.3;
+					}
+					else if(keyboard1.keycode == 68){
+						//d:right move
+						cam1.x += 0.3;
+					}
+					else if(keyboard1.keycode == 87){
+						//w:forward
+						cam1.z += 0.1;
+					}
+					else if(keyboard1.keycode == 83){
+						//s:backward
+						cam1.z -= 0.1;
+					}
+					else if(keyboard1.keycode == 90){
+						//z:down move
+						cam1.y -= 0.3;
+					}
+					else if(keyboard1.keycode == 88){
+						//x:up move
+						cam1.y += 0.3;
+					}
+					else if(keyboard1.keycode == 73){
+						//i:up rotation
+						cam1.angleX -= 1;
+					}
+					else if(keyboard1.keycode == 75){
+						//k:down rotation
+						cam1.angleX += 1;
+					}
+					else if(keyboard1.keycode == 74){
+						//j:left rotation
+						cam1.angleY += 1;
+					}
+					else if(keyboard1.keycode == 76){
+						//l:right rotation
+						cam1.angleY -= 1;
+					}
+					else if(keyboard1.keycode == 78){
+						//n:z-left rotation;
+						cam1.angleZ -= 1;
+					}
+					else if(keyboard1.keycode == 77){
+						//m:z-right rotation;
+						cam1.angleZ += 1;
+					}
+				}, 30);
+			}
 		</script>
 	</body>
 </html>
