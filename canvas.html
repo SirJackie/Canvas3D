@@ -321,93 +321,104 @@
 				});
 			}
 
-			var isKeyFirstTimePressing  = false;
-			var isKeySecondTimePressing = false;
-			var keycode                 = -1;
-			var latestKeycode           = -1;
-			var latestKeypressTime      = -1;
+			/*
+			** Input functions
+			*/
+			function KeyboardEvent(){
+				this.isKeyFirstTimePressing  = false;
+				this.isKeySecondTimePressing = false;
+				this.keycode                 = -1;
+				this.latestKeycode           = -1;
+				this.latestKeypressTime      = -1;
 
-			window.onkeydown = function(event){
-				var nowdate = (new Date()).valueOf();
+				this.Init = function(){
+					var _this = this;
+					window.onkeydown = function(event){
+						var nowdate = (new Date()).valueOf();
 
-				if(event.keyCode != keycode){
-					//pressing first key
-					isKeyFirstTimePressing  = true;
-					isKeySecondTimePressing = false;
-					keycode = event.keyCode;
+						if(event.keyCode != _this.keycode){
+							//pressing first key
+							_this.isKeyFirstTimePressing  = true;
+							_this.isKeySecondTimePressing = false;
+							_this.keycode = event.keyCode;
+						}
+
+						else if(event.keyCode == _this.keycode && _this.isKeyFirstTimePressing  == true && (nowdate - _this.latestKeypressTime) < 300){
+							//pressing second key
+							_this.isKeyFirstTimePressing  = false;
+							_this.isKeySecondTimePressing = true;
+						}
+
+						else if(event.keyCode == _this.keycode && _this.isKeyFirstTimePressing  == false && (nowdate - _this.latestKeypressTime) < 60){
+							//pressing third key
+							_this.isKeySecondTimePressing = true;
+						}
+
+						else{
+							_this.isKeySecondTimePressing = false;
+							_this.keycode = -1;
+						}
+						_this.latestKeypressTime = nowdate;
+					}
+
+					window.onkeyup = function(){
+						var nowdate = (new Date()).valueOf();
+						setTimeout(function(){
+							_this.isKeySecondTimePressing = false;
+							_this.keycode = -1;
+						},30);
+						_this.latestKeypressTime = nowdate;
+					}
 				}
-
-				else if(event.keyCode == keycode && isKeyFirstTimePressing  == true && (nowdate - latestKeypressTime) < 300){
-					//pressing second key
-					isKeyFirstTimePressing  = false;
-					isKeySecondTimePressing = true;
-				}
-
-				else if(event.keyCode == keycode && isKeyFirstTimePressing  == false && (nowdate - latestKeypressTime) < 60){
-					//pressing third key
-					isKeySecondTimePressing = true;
-				}
-
-				else{
-					isKeySecondTimePressing = false;
-					keycode = -1;
-				}
-				latestKeypressTime = nowdate;
 			}
-
-			window.onkeyup = function(){
-				var nowdate = (new Date()).valueOf();
-				setTimeout(function(){
-					isKeySecondTimePressing = false;
-					keycode = -1;
-				},30);
-				latestKeypressTime = nowdate;
-			}
-
+			
 			//Keyboard Control
+			var keyboard1 = new KeyboardEvent();
+			keyboard1.Init();
+
 			setInterval(function(){
-				if(keycode == 65){
+				if(keyboard1.keycode == 65){
 					//a:left move
 					cam1.x -= 0.3;
 				}
-				else if(keycode == 68){
+				else if(keyboard1.keycode == 68){
 					//d:right move
 					cam1.x += 0.3;
 				}
-				else if(keycode == 87){
+				else if(keyboard1.keycode == 87){
 					//w:forward
 					cam1.z += 0.1;
 				}
-				else if(keycode == 83){
+				else if(keyboard1.keycode == 83){
 					//s:backward
 					cam1.z -= 0.1;
 				}
-				else if(keycode == 90){
+				else if(keyboard1.keycode == 90){
 					//z:down move
 					cam1.y -= 0.3;
 				}
-				else if(keycode == 88){
+				else if(keyboard1.keycode == 88){
 					//x:up move
 					cam1.y += 0.3;
 				}
-				else if(keycode == 73){
+				else if(keyboard1.keycode == 73){
 					//i:up rotation
 					cam1.angleX -= 1;
 				}
-				else if(keycode == 75){
+				else if(keyboard1.keycode == 75){
 					//k:down rotation
 					cam1.angleX += 1;
 				}
-				else if(keycode == 74){
+				else if(keyboard1.keycode == 74){
 					//j:left rotation
 					cam1.angleY += 1;
 				}
-				else if(keycode == 76){
+				else if(keyboard1.keycode == 76){
 					//l:right rotation
 					cam1.angleY -= 1;
 				}
 				else{
-					//alert(event.keyCode);
+					//alert(keyboard1.keycode);
 				}
 			},20);
 		</script>
