@@ -322,8 +322,8 @@
 				});
 			}
 
-			var isKeyFirstPressPressing  = false;
-			var isKeyPressing      = false;
+			var isKeyFirstTimePressing  = false;
+			var isKeySecondTimePressing      = false;
 			var keycode            = -1;
 			var latestKeycode      = -1;
 			var latestKeypressTime = -1;
@@ -333,24 +333,24 @@
 
 				if(event.keyCode != keycode){
 					//pressing first key
-					isKeyFirstPressPressing  = true;
-					isKeyPressing = false;
+					isKeyFirstTimePressing  = true;
+					isKeySecondTimePressing = false;
 					keycode = event.keyCode;
 				}
 
-				else if(event.keyCode == keycode && isKeyFirstPressPressing  == true && (nowdate - latestKeypressTime) < 300){
+				else if(event.keyCode == keycode && isKeyFirstTimePressing  == true && (nowdate - latestKeypressTime) < 300){
 					//pressing second key
-					isKeyFirstPressPressing  = false;
-					isKeyPressing = true;
+					isKeyFirstTimePressing  = false;
+					isKeySecondTimePressing = true;
 				}
 
-				else if(event.keyCode == keycode && isKeyFirstPressPressing  == false && (nowdate - latestKeypressTime) < 60){
+				else if(event.keyCode == keycode && isKeyFirstTimePressing  == false && (nowdate - latestKeypressTime) < 60){
 					//pressing third key
-					isKeyPressing = true;
+					isKeySecondTimePressing = true;
 				}
 
 				else{
-					isKeyPressing = false;
+					isKeySecondTimePressing = false;
 					keycode = -1;
 				}
 				latestKeypressTime = nowdate;
@@ -359,62 +359,53 @@
 			window.onkeyup = function(){
 				var nowdate = (new Date()).valueOf();
 				setTimeout(function(){
-					isKeyPressing = false;
+					isKeySecondTimePressing = false;
 					keycode = -1;
 				},30);
 				latestKeypressTime = nowdate;
 			}
 
+			//Keyboard Control
 			setInterval(function(){
 				if(keycode == 65){
 					//a:left move
 					cam1.x -= 0.3;
-					_event = null;
 				}
 				else if(keycode == 68){
 					//d:right move
 					cam1.x += 0.3;
-					_event = null;
 				}
 				else if(keycode == 87){
 					//w:forward
 					cam1.z += 0.1;
-					_event = null;
 				}
 				else if(keycode == 83){
 					//s:backward
 					cam1.z -= 0.1;
-					_event = null;
 				}
 				else if(keycode == 90){
 					//z:down move
 					cam1.y -= 0.3;
-					_event = null;
 				}
 				else if(keycode == 88){
 					//x:up move
 					cam1.y += 0.3;
-					_event = null;
 				}
 				else if(keycode == 73){
 					//i:up rotation
 					cam1.angleX -= 1;
-					_event = null;
 				}
 				else if(keycode == 75){
 					//k:down rotation
 					cam1.angleX += 1;
-					_event = null;
 				}
 				else if(keycode == 74){
 					//j:left rotation
 					cam1.angleY += 1;
-					_event = null;
 				}
 				else if(keycode == 76){
 					//l:right rotation
 					cam1.angleY -= 1;
-					_event = null;
 				}
 				else{
 					//alert(event.keyCode);
