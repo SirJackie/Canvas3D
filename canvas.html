@@ -224,6 +224,9 @@
 			}
 
 			function CanvasDrawMesh2D(ctx, mesh, color){
+				if(mesh.vec1.x == -1 || mesh.vec2.x == -1 || mesh.vec3.x == -1){
+					return; //don't show this vector
+				}
 				CanvasDrawVector2D(ctx, mesh.vec1);
 				CanvasDrawVector2D(ctx, mesh.vec2);
 				CanvasDrawVector2D(ctx, mesh.vec3);
@@ -258,12 +261,17 @@
 				var vecy = final.m01;
 				var vecz = final.m02;
 
-				var x2d     = (vecx) / (vecz*zfix);
-				var y2d     = (vecy) / (vecz*zfix);
+				if(vecz <= 0){
+					return new Vector2D(-1,-1); //don't show this vector
+				}
+				else{
+					var x2d     = (vecx) / (vecz*zfix);
+					var y2d     = (vecy) / (vecz*zfix);
 
-				var xScreen = (camera.screenWidth  / 2) + (x2d * zoom);
-				var yScreen = (camera.screenHeight / 2) + (y2d * zoom);
-				return new Vector2D(xScreen, yScreen);
+					var xScreen = (camera.screenWidth  / 2) + (x2d * zoom);
+					var yScreen = (camera.screenHeight / 2) + (y2d * zoom);
+					return new Vector2D(xScreen, yScreen);
+				}
 			}
 
 			function Mesh4D2Mesh2D(camera,mesh4d){
