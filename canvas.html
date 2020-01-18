@@ -14,11 +14,34 @@
 				margin:0;
 				border:0;
 			}
+			.touchBtnContainer{
+				position:absolute;
+				bottom:5vh;
+				left:5vh;
+				width:60vh;
+				height:60vh;
+			}
+			.btn{
+				background:rgba(255,255,255,0.5);
+				box-shadow: 0 0 2vh #000000;
+				font-size:6vh;
+				width:20vh;
+				height:20vh;
+				border-radius: 10vh;
+				text-align: center;
+				line-height: 20vh;
+			}
 		</style>
 	</head>
 
 	<body>
 		<canvas id="canvas1"></canvas>
+		<div class="touchBtnContainer">
+			<div class="btn" id="up"    style="position:relative;top: 0vh;left:20vh;">up</div>
+			<div class="btn" id="left"  style="position:relative;top: 0vh;left:0vh;">left</div>
+			<div class="btn" id="right" style="position:relative;top:-20vh;left:40vh;">right</div>
+			<div class="btn" id="down"  style="position:relative;top:-20vh;left:20vh;">down</div>
+		</div>
 		<script>
 
 			/*
@@ -322,8 +345,6 @@
 				});
 			}
 
-			console.log(window.onkeydown);
-
 			/*
 			** Input structs
 			*/
@@ -334,54 +355,97 @@
 				this.keycode                 = -1;
 				this.latestKeycode           = -1;
 				this.latestKeypressTime      = -1;
+				/* Init actions */
+				var _this = this;
+				window.onkeydown = function(event){
+					var nowdate = (new Date()).valueOf();
 
-				this.Init = function(){
-					var _this = this;
-					window.onkeydown = function(event){
-						var nowdate = (new Date()).valueOf();
-
-						if(event.keyCode != _this.keycode){
-							//pressing first key
-							_this.isKeyFirstTimePressing  = true;
-							_this.isKeySecondTimePressing = false;
-							_this.keycode = event.keyCode;
-						}
-
-						else if(event.keyCode == _this.keycode && _this.isKeyFirstTimePressing  == true && (nowdate - _this.latestKeypressTime) < 300){
-							//pressing second key
-							_this.isKeyFirstTimePressing  = false;
-							_this.isKeySecondTimePressing = true;
-						}
-
-						else if(event.keyCode == _this.keycode && _this.isKeyFirstTimePressing  == false && (nowdate - _this.latestKeypressTime) < 60){
-							//pressing third key
-							_this.isKeySecondTimePressing = true;
-						}
-
-						else{
-							_this.isKeySecondTimePressing = false;
-							_this.keycode = -1;
-						}
-						_this.latestKeypressTime = nowdate;
+					if(event.keyCode != _this.keycode){
+						//pressing first key
+						_this.isKeyFirstTimePressing  = true;
+						_this.isKeySecondTimePressing = false;
+						_this.keycode = event.keyCode;
 					}
 
-					window.onkeyup = function(){
-						var nowdate = (new Date()).valueOf();
-						setTimeout(function(){
-							_this.isKeySecondTimePressing = false;
-							_this.keycode = -1;
-						},30);
-						_this.latestKeypressTime = nowdate;
+					else if(event.keyCode == _this.keycode && _this.isKeyFirstTimePressing  == true && (nowdate - _this.latestKeypressTime) < 300){
+						//pressing second key
+						_this.isKeyFirstTimePressing  = false;
+						_this.isKeySecondTimePressing = true;
 					}
+
+					else if(event.keyCode == _this.keycode && _this.isKeyFirstTimePressing  == false && (nowdate - _this.latestKeypressTime) < 60){
+						//pressing third key
+						_this.isKeySecondTimePressing = true;
+					}
+
+					else{
+						_this.isKeySecondTimePressing = false;
+						_this.keycode = -1;
+					}
+					_this.latestKeypressTime = nowdate;
 				}
+
+				window.onkeyup = function(){
+					var nowdate = (new Date()).valueOf();
+					setTimeout(function(){
+						_this.isKeySecondTimePressing = false;
+						_this.keycode = -1;
+					},30);
+					_this.latestKeypressTime = nowdate;
+				}
+			}
+
+			function TouchbtnEvent(){
+				var keycode = -1;
+				/* Init actions */
+				var up = document.getElementById("up");
+				var down = document.getElementById("down");
+				var left = document.getElementById("left");
+				var right = document.getElementById("right");
+				var _this = this;
+				up.addEventListener('touchstart',function(){
+					_this.keycode = 87;
+					event.preventDefault();
+				});
+				up.addEventListener('touchend',function(){
+					_this.keycode = -1;
+					event.preventDefault();
+				});
+				down.addEventListener('touchstart',function(){
+					_this.keycode = 83;
+					event.preventDefault();
+				});
+				down.addEventListener('touchend',function(){
+					_this.keycode = -1;
+					event.preventDefault();
+				});
+				left.addEventListener('touchstart',function(){
+					_this.keycode = 65;
+					event.preventDefault();
+				});
+				left.addEventListener('touchend',function(){
+					_this.keycode = -1;
+					event.preventDefault();
+				});
+				right.addEventListener('touchstart',function(){
+					_this.keycode = 68;
+					event.preventDefault();
+				});
+				right.addEventListener('touchend',function(){
+					_this.keycode = -1;
+					event.preventDefault();
+				});
 			}
 			
 			/*
 			** Input actions
 			*/
 
+			var keyboard1;
+
 			if ('ontouchstart' in document.documentElement) {
-				//mobile,use touch control
+				/* mobile */
+				//generate touch event
 				var canvas = document.getElementById('canvas1');
 				var lastx,lasty,nowx,nowy;
 				canvas.addEventListener('touchstart',function(){
@@ -403,62 +467,69 @@
 				canvas.addEventListener('touchend',function(){
 					event.preventDefault();
 				});
+				//initialize touchbtn control
+				keyboard1 = new TouchbtnEvent();
+				
 			} else {
-				//pc,use keyboard control
-				var keyboard1 = new KeyboardEvent();
-				keyboard1.Init();
-
-				setInterval(function(){
-					if(keyboard1.keycode == 65){
-						//a:left move
-						cam1.x -= 0.3;
-					}
-					else if(keyboard1.keycode == 68){
-						//d:right move
-						cam1.x += 0.3;
-					}
-					else if(keyboard1.keycode == 87){
-						//w:forward
-						cam1.z += 0.1;
-					}
-					else if(keyboard1.keycode == 83){
-						//s:backward
-						cam1.z -= 0.1;
-					}
-					else if(keyboard1.keycode == 90){
-						//z:down move
-						cam1.y -= 0.3;
-					}
-					else if(keyboard1.keycode == 88){
-						//x:up move
-						cam1.y += 0.3;
-					}
-					else if(keyboard1.keycode == 73){
-						//i:up rotation
-						cam1.angleX -= 1;
-					}
-					else if(keyboard1.keycode == 75){
-						//k:down rotation
-						cam1.angleX += 1;
-					}
-					else if(keyboard1.keycode == 74){
-						//j:left rotation
-						cam1.angleY += 1;
-					}
-					else if(keyboard1.keycode == 76){
-						//l:right rotation
-						cam1.angleY -= 1;
-					}
-					else if(keyboard1.keycode == 78){
-						//n:z-left rotation;
-						cam1.angleZ -= 1;
-					}
-					else if(keyboard1.keycode == 77){
-						//m:z-right rotation;
-						cam1.angleZ += 1;
-					}
-				}, 30);
+				/* pc */
+				//disable touchBtnContainer
+				var touchBtnContainer = document.getElementsByClassName("touchBtnContainer")[0];
+				touchBtnContainer.style.display = "none";
+				//initialize keyboard control
+				keyboard1 = new KeyboardEvent();
 			}
+
+			//Input Feedback
+			setInterval(function(){
+				if(keyboard1.keycode == 65){
+					//a:left move
+					cam1.x -= 0.3;
+				}
+				else if(keyboard1.keycode == 68){
+					//d:right move
+					cam1.x += 0.3;
+				}
+				else if(keyboard1.keycode == 87){
+					//w:forward
+					cam1.z += 0.3;
+				}
+				else if(keyboard1.keycode == 83){
+					//s:backward
+					cam1.z -= 0.3;
+				}
+				else if(keyboard1.keycode == 90){
+					//z:down move
+					cam1.y -= 0.3;
+				}
+				else if(keyboard1.keycode == 88){
+					//x:up move
+					cam1.y += 0.3;
+				}
+				else if(keyboard1.keycode == 73){
+					//i:up rotation
+					cam1.angleX -= 1;
+				}
+				else if(keyboard1.keycode == 75){
+					//k:down rotation
+					cam1.angleX += 1;
+				}
+				else if(keyboard1.keycode == 74){
+					//j:left rotation
+					cam1.angleY += 1;
+				}
+				else if(keyboard1.keycode == 76){
+					//l:right rotation
+					cam1.angleY -= 1;
+				}
+				else if(keyboard1.keycode == 78){
+					//n:z-left rotation;
+					cam1.angleZ -= 1;
+				}
+				else if(keyboard1.keycode == 77){
+					//m:z-right rotation;
+					cam1.angleZ += 1;
+				}
+			}, 30);
 		</script>
 	</body>
 </html>
