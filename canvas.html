@@ -37,10 +37,12 @@
 	<body>
 		<canvas id="canvas1"></canvas>
 		<div class="touchBtnContainer">
-			<div class="btn" id="up"    style="position:relative;top: 0vh;left:20vh;">up</div>
-			<div class="btn" id="left"  style="position:relative;top: 0vh;left:0vh;">left</div>
-			<div class="btn" id="right" style="position:relative;top:-20vh;left:40vh;">right</div>
-			<div class="btn" id="down"  style="position:relative;top:-20vh;left:20vh;">down</div>
+			<div class="btn" id="front" style="position:relative;top:  0vh;left: 20vh;">front</div>
+			<div class="btn" id="left"  style="position:relative;top:  0vh;left:  0vh;">left</div>
+			<div class="btn" id="right" style="position:relative;top:-20vh;left: 40vh;">right</div>
+			<div class="btn" id="back"  style="position:relative;top:-20vh;left: 20vh;">back</div>
+			<div class="btn" id="up"    style="position:relative;top:-65vh;left:130vh;">up</div>
+			<div class="btn" id="down"  style="position:relative;top:-60vh;left:130vh;">down</div>
 		</div>
 		<script>
 
@@ -398,24 +400,26 @@
 			function TouchbtnEvent(){
 				var keycode = -1;
 				/* Init actions */
-				var up = document.getElementById("up");
-				var down = document.getElementById("down");
-				var left = document.getElementById("left");
+				var front = document.getElementById("front");
+				var back  = document.getElementById("back");
+				var left  = document.getElementById("left");
 				var right = document.getElementById("right");
+				var up    = document.getElementById("up");
+				var down  = document.getElementById("down");
 				var _this = this;
-				up.addEventListener('touchstart',function(){
+				front.addEventListener('touchstart',function(){
 					_this.keycode = 87;
 					event.preventDefault();
 				});
-				up.addEventListener('touchend',function(){
+				front.addEventListener('touchend',function(){
 					_this.keycode = -1;
 					event.preventDefault();
 				});
-				down.addEventListener('touchstart',function(){
+				back.addEventListener('touchstart',function(){
 					_this.keycode = 83;
 					event.preventDefault();
 				});
-				down.addEventListener('touchend',function(){
+				back.addEventListener('touchend',function(){
 					_this.keycode = -1;
 					event.preventDefault();
 				});
@@ -432,6 +436,22 @@
 					event.preventDefault();
 				});
 				right.addEventListener('touchend',function(){
+					_this.keycode = -1;
+					event.preventDefault();
+				});
+				up.addEventListener('touchstart',function(){
+					_this.keycode = 90;
+					event.preventDefault();
+				});
+				up.addEventListener('touchend',function(){
+					_this.keycode = -1;
+					event.preventDefault();
+				});
+				down.addEventListener('touchstart',function(){
+					_this.keycode = 88;
+					event.preventDefault();
+				});
+				down.addEventListener('touchend',function(){
 					_this.keycode = -1;
 					event.preventDefault();
 				});
@@ -468,7 +488,33 @@
 					event.preventDefault();
 				});
 				//initialize touchbtn control
-				keyboard1 = new TouchbtnEvent();
+				touchbtn1 = new TouchbtnEvent();
+				setInterval(function(){
+					if(touchbtn1.keycode == 65){
+						//a:left move
+						cam1.x -= 1;
+					}
+					else if(touchbtn1.keycode == 68){
+						//d:right move
+						cam1.x += 1;
+					}
+					else if(touchbtn1.keycode == 87){
+						//w:forward
+						cam1.z += 1;
+					}
+					else if(touchbtn1.keycode == 83){
+						//s:backward
+						cam1.z -= 1;
+					}
+					else if(touchbtn1.keycode == 90){
+						//z:up move
+						cam1.y -= 1;
+					}
+					else if(touchbtn1.keycode == 88){
+						//x:down move
+						cam1.y += 1;
+					}
+				}, 30);
 				
 			} else {
 				/* pc */
@@ -477,59 +523,57 @@
 				touchBtnContainer.style.display = "none";
 				//initialize keyboard control
 				keyboard1 = new KeyboardEvent();
-			}
-
-			//Input Feedback
-			setInterval(function(){
-				if(keyboard1.keycode == 65){
-					//a:left move
-					cam1.x -= 0.3;
-				}
-				else if(keyboard1.keycode == 68){
-					//d:right move
-					cam1.x += 0.3;
-				}
-				else if(keyboard1.keycode == 87){
-					//w:forward
-					cam1.z += 0.3;
-				}
-				else if(keyboard1.keycode == 83){
-					//s:backward
-					cam1.z -= 0.3;
-				}
-				else if(keyboard1.keycode == 90){
-					//z:down move
-					cam1.y -= 0.3;
-				}
-				else if(keyboard1.keycode == 88){
-					//x:up move
-					cam1.y += 0.3;
-				}
-				else if(keyboard1.keycode == 73){
-					//i:up rotation
-					cam1.angleX -= 1;
-				}
-				else if(keyboard1.keycode == 75){
-					//k:down rotation
-					cam1.angleX += 1;
-				}
-				else if(keyboard1.keycode == 74){
-					//j:left rotation
-					cam1.angleY += 1;
-				}
-				else if(keyboard1.keycode == 76){
-					//l:right rotation
-					cam1.angleY -= 1;
-				}
-				else if(keyboard1.keycode == 78){
-					//n:z-left rotation;
-					cam1.angleZ -= 1;
-				}
-				else if(keyboard1.keycode == 77){
-					//m:z-right rotation;
-					cam1.angleZ += 1;
-				}
-			}, 30);
+				setInterval(function(){
+					if(keyboard1.keycode == 65){
+						//a:left move
+						cam1.x -= 0.3;
+					}
+					else if(keyboard1.keycode == 68){
+						//d:right move
+						cam1.x += 0.3;
+					}
+					else if(keyboard1.keycode == 87){
+						//w:forward
+						cam1.z += 0.3;
+					}
+					else if(keyboard1.keycode == 83){
+						//s:backward
+						cam1.z -= 0.3;
+					}
+					else if(keyboard1.keycode == 90){
+						//z:up move
+						cam1.y -= 0.3;
+					}
+					else if(keyboard1.keycode == 88){
+						//x:down move
+						cam1.y += 0.3;
+					}
+					else if(keyboard1.keycode == 73){
+						//i:up rotation
+						cam1.angleX -= 1;
+					}
+					else if(keyboard1.keycode == 75){
+						//k:down rotation
+						cam1.angleX += 1;
+					}
+					else if(keyboard1.keycode == 74){
+						//j:left rotation
+						cam1.angleY += 1;
+					}
+					else if(keyboard1.keycode == 76){
+						//l:right rotation
+						cam1.angleY -= 1;
+					}
+					else if(keyboard1.keycode == 78){
+						//n:z-left rotation;
+						cam1.angleZ -= 1;
+					}
+					else if(keyboard1.keycode == 77){
+						//m:z-right rotation;
+						cam1.angleZ += 1;
+					}
+				}, 30);
+			}			
 		</script>
 	</body>
 </html>
