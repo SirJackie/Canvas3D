@@ -16,10 +16,6 @@
 			}
 			.touchBtnContainer{
 				position:absolute;
-				bottom:5vh;
-				left:5vh;
-				width:60vh;
-				height:60vh;
 			}
 			.btn{
 				background:rgba(255,255,255,0.5);
@@ -36,13 +32,15 @@
 
 	<body>
 		<canvas id="canvas1"></canvas>
-		<div class="touchBtnContainer">
+		<div class="touchBtnContainer" id="leftTouchBtnContainer" style="bottom:5vh;left:5vh;width:60vh;height:60vh;">
 			<div class="btn" id="front" style="position:relative;top:  0vh;left: 20vh;">front</div>
 			<div class="btn" id="left"  style="position:relative;top:  0vh;left:  0vh;">left</div>
 			<div class="btn" id="right" style="position:relative;top:-20vh;left: 40vh;">right</div>
 			<div class="btn" id="back"  style="position:relative;top:-20vh;left: 20vh;">back</div>
-			<div class="btn" id="up"    style="position:relative;top:-65vh;left:130vh;">up</div>
-			<div class="btn" id="down"  style="position:relative;top:-60vh;left:130vh;">down</div>
+		</div>
+		<div class="touchBtnContainer" id="rightTouchBtnContainer" style="bottom:5vh;right:5vh;width:20vh;height:40vh;">
+			<div class="btn" id="up"    style="position:relative;top:-5vh;right:0vh;">up</div>
+			<div class="btn" id="down"  style="position:relative;top:0vh;right:0vh;">down</div>
 		</div>
 		<script>
 
@@ -520,7 +518,7 @@
 			} else {
 				/* pc */
 				//disable touchBtnContainer
-				var touchBtnContainer = document.getElementsByClassName("touchBtnContainer")[0];
+				var touchBtnContainer = document.getElementsByClassName("leftTouchBtnContainer")[0];
 				touchBtnContainer.style.display = "none";
 				//initialize keyboard control
 				keyboard1 = new KeyboardEvent();
