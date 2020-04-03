@@ -576,23 +576,92 @@
 					event.preventDefault(); //不执行浏览器响应指令
 				});
 			}
+
+			function IsPC()
+			/* 判断设备是否是PC */
+			{
+				var userAgentInfo = navigator.userAgent;
+				var Agents = ["Android", "iPhone",
+					"SymbianOS", "Windows Phone",
+					"iPad", "iPod"];
+				var flag = true;
+				for (var v = 0; v < Agents.length; v++) {
+					if (userAgentInfo.indexOf(Agents[v]) > 0) {
+						flag = false;
+						break;
+					}
+				}
+				return flag;
+			}
 			
 			/*
 			** Input actions
 			** 输入用定义
 			*/
 
-			var keyboard1;
+			/* initialize keyboard control  初始化键盘控制 */
+			var keyboard1 = new KeyboardEvent();
+			setInterval(function(){
+				if(keyboard1.keycode == 65){
+					//a:left move   左移
+					cam1.x -= 1;
+				}
+				else if(keyboard1.keycode == 68){
+					//d:right move  右移
+					cam1.x += 1;
+				}
+				else if(keyboard1.keycode == 87){
+					//w:forward     前移
+					cam1.z += 1;
+				}
+				else if(keyboard1.keycode == 83){
+					//s:backward    后移
+					cam1.z -= 1;
+				}
+				else if(keyboard1.keycode == 90){
+					//z:up move     上移
+					cam1.y -= 1;
+				}
+				else if(keyboard1.keycode == 88){
+					//x:down move   下移
+					cam1.y += 1;
+				}
+				else if(keyboard1.keycode == 73){
+					//i:up rotation    向上旋转
+					cam1.angleX -= 1;
+				}
+				else if(keyboard1.keycode == 75){
+					//k:down rotation  向下旋转
+					cam1.angleX += 1;
+				}
+				else if(keyboard1.keycode == 74){
+					//j:left rotation  向左旋转
+					cam1.angleY += 1;
+				}
+				else if(keyboard1.keycode == 76){
+					//l:right rotation 向右旋转
+					cam1.angleY -= 1;
+				}
+				else if(keyboard1.keycode == 78){
+					//n:z-left rotation;  Z轴左旋
+					cam1.angleZ -= 1;
+				}
+				else if(keyboard1.keycode == 77){
+					//m:z-right rotation; Z轴右旋
+					cam1.angleZ += 1;
+				}
+			}, 30);
 
 			/* 判断设备 */
-			if ('ontouchstart' in document.documentElement) {
+			if (IsPC() != true) {
+				console.log("mobile!");
 				/* mobile 如果是移动端 */
 
-				touchRotation1 = new TouchRotationEvent(document.getElementById('canvas1'), cam1);  //为Canvas添加触屏事件,滑动Canvas来旋转相机
+				/* initialize touchbtn control 初始化触控按钮 */
+				var touchRotation1 = new TouchRotationEvent(document.getElementById('canvas1'), cam1);  //为Canvas添加触屏事件,滑动Canvas来旋转相机
 
-
-				//initialize touchbtn control 初始化触控按钮
-				touchbtn1 = new TouchbtnEvent(
+				/* 为触控按钮添加点击事件 */
+				var touchbtn1 = new TouchbtnEvent(
 					document.getElementById("front"),  //前键
 					document.getElementById("back"),   //后键
 					document.getElementById("left"),   //左键
@@ -628,63 +697,13 @@
 				}, 20);
 				
 			} else {
+				console.log("pc!");
 				/* pc 如果是PC端 */
-				//disable touchBtnContainer  禁用触控按钮
-				/* 让触控按钮栏消失 */
-				var touchBtnContainer = document.getElementsByClassName("leftTouchBtnContainer")[0];
-				touchBtnContainer.style.display = "none";
-				//initialize keyboard control  初始化键盘控制
-				keyboard1 = new KeyboardEvent();
-				setInterval(function(){
-					if(keyboard1.keycode == 65){
-						//a:left move   左移
-						cam1.x -= 0.3;
-					}
-					else if(keyboard1.keycode == 68){
-						//d:right move  右移
-						cam1.x += 0.3;
-					}
-					else if(keyboard1.keycode == 87){
-						//w:forward     前移
-						cam1.z += 0.3;
-					}
-					else if(keyboard1.keycode == 83){
-						//s:backward    后移
-						cam1.z -= 0.3;
-					}
-					else if(keyboard1.keycode == 90){
-						//z:up move     上移
-						cam1.y -= 0.3;
-					}
-					else if(keyboard1.keycode == 88){
-						//x:down move   下移
-						cam1.y += 0.3;
-					}
-					else if(keyboard1.keycode == 73){
-						//i:up rotation    向上旋转
-						cam1.angleX -= 1;
-					}
-					else if(keyboard1.keycode == 75){
-						//k:down rotation  向下旋转
-						cam1.angleX += 1;
-					}
-					else if(keyboard1.keycode == 74){
-						//j:left rotation  向左旋转
-						cam1.angleY += 1;
-					}
-					else if(keyboard1.keycode == 76){
-						//l:right rotation 向右旋转
-						cam1.angleY -= 1;
-					}
-					else if(keyboard1.keycode == 78){
-						//n:z-left rotation;  Z轴左旋
-						cam1.angleZ -= 1;
-					}
-					else if(keyboard1.keycode == 77){
-						//m:z-right rotation; Z轴右旋
-						cam1.angleZ += 1;
-					}
-				}, 30);
+				/* disable touchBtnContainer  禁用触控按钮 */
+				var leftTouchBtnContainer = document.getElementById("leftTouchBtnContainer");
+				leftTouchBtnContainer.parentNode.removeChild(leftTouchBtnContainer);
+				var rightTouchBtnContainer = document.getElementById("rightTouchBtnContainer");
+				rightTouchBtnContainer.parentNode.removeChild(rightTouchBtnContainer);
 			}
 		</script>
 	</body>
