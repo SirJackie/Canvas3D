@@ -30,4 +30,4 @@ GNU GPL不会授予许可证接受人无限的权利。再发行权的授予需�
 
 关于协议版本，Canvas3D使用GPL v2协议。
 
-关于GPL v2协议，上述说明仅做参考，具体细节请以LICENSE为准，SugarOS原作者Jackie Lin(用户名lyj00912，<https://github.com/lyj00912> )保留一切解释权。
+关于GPL v2协议，上述说明仅做参考，具体细节请以LICENSE为准，Canvas3D原作者Jackie Lin(用户名lyj00912，<https://github.com/lyj00912> )保留一切解释权。
