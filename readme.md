@@ -2,7 +2,7 @@
 
 一款运行在HTML5上的单文件极简3D引擎，用来验证3D图形学上的理论。
 
-<video src="D:\Projects\Canvas3D\demo.mp4"></video>
+![Demo](D:\Projects\Canvas3D\Demo.gif)
 
 # 概况
 
