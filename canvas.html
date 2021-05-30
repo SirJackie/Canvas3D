@@ -432,59 +432,20 @@
 			** 输入用结构体
 			*/
 
-			function KeyboardEvent()
-			/* 封装过后的键盘对象,带有防卡顿效果 */
-			{
-				this.isKeyFirstTimePressing  = false;
-				this.isKeySecondTimePressing = false;
-				this.keycode                 = -1;
-				this.latestKeycode           = -1;
-				this.latestKeypressTime      = -1;
-				/* Init actions 初始化动作 */
-				var _this = this;
+			// function KeyboardEvent()
+			// /* 封装过后的键盘对象,带有防卡顿效果 */
+			// {
+			// 	this.isKeyFirstTimePressing  = false;
+			// 	this.isKeySecondTimePressing = false;
+			// 	this.keycode                 = -1;
+			// 	this.latestKeycode           = -1;
+			// 	this.latestKeypressTime      = -1;
+			// 	/* Init actions 初始化动作 */
+			// 	var _this = this;
 
-				/*当按下按键时的响应 */
-				window.onkeydown = function(event){
-					var nowdate = (new Date()).valueOf();
-
-					if(event.keyCode != _this.keycode){
-						//pressing key first time 第一次按键
-						_this.isKeyFirstTimePressing  = true;
-						_this.isKeySecondTimePressing = false;
-						_this.keycode = event.keyCode;
-					}
-
-					else if(event.keyCode == _this.keycode && _this.isKeyFirstTimePressing  == true && (nowdate - _this.latestKeypressTime) < 300){
-						//pressing key second time 第二次按键
-						_this.isKeyFirstTimePressing  = false;
-						_this.isKeySecondTimePressing = true;
-					}
-
-					else if(event.keyCode == _this.keycode && _this.isKeyFirstTimePressing  == false && (nowdate - _this.latestKeypressTime) < 60){
-						//pressing key third time 第三次按键
-						_this.isKeySecondTimePressing = true;
-					}
-
-					else{
-						//其他情况
-						_this.isKeySecondTimePressing = false;
-						_this.keycode = -1;
-					}
-					
-					//储存最后一次按键事件
-					_this.latestKeypressTime = nowdate;
-				}
-
-				/* 当松开按键时的响应 */
-				window.onkeyup = function(){
-					var nowdate = (new Date()).valueOf();
-					setTimeout(function(){
-						_this.isKeySecondTimePressing = false;
-						_this.keycode = -1;
-					},30);
-					_this.latestKeypressTime = nowdate;
-				}
-			}
+			// 	/*当按下按键时的响应 */
+				
+			// }
 
 			function TouchbtnEvent(front, back, left, right, up, down)
 			/* 封装过后的触摸屏按钮对象,可以兼容手机 */
@@ -601,57 +562,82 @@
 			*/
 
 			/* initialize keyboard control  初始化键盘控制 */
-			var keyboard1 = new KeyboardEvent();
-			setInterval(function(){
-				if(keyboard1.keycode == 65){
+			// var keyboard1 = new KeyboardEvent();
+
+			var lastPressingKeyCode = 0;
+			var lastPressingTimeStamp = (new Date()).valueOf();
+
+			window.onkeydown = function(event){
+				lastPressingKeyCode = event.keyCode;
+				lastPressingTimeStamp = (new Date()).valueOf();
+				console.log(lastPressingKeyCode, lastPressingTimeStamp);
+			}
+
+			function UpdatePosition(keycode){
+				if(keycode == 65){
 					//a:left move   左移
 					cam1.x -= 1;
 				}
-				else if(keyboard1.keycode == 68){
+				else if(keycode == 68){
 					//d:right move  右移
 					cam1.x += 1;
 				}
-				else if(keyboard1.keycode == 87){
+				else if(keycode == 87){
 					//w:forward     前移
 					cam1.z += 1;
 				}
-				else if(keyboard1.keycode == 83){
+				else if(keycode == 83){
 					//s:backward    后移
 					cam1.z -= 1;
 				}
-				else if(keyboard1.keycode == 90){
+				else if(keycode == 90){
 					//z:up move     上移
 					cam1.y -= 1;
 				}
-				else if(keyboard1.keycode == 88){
+				else if(keycode == 88){
 					//x:down move   下移
 					cam1.y += 1;
 				}
-				else if(keyboard1.keycode == 73){
+				else if(keycode == 73){
 					//i:up rotation    向上旋转
 					cam1.angleX -= 1;
 				}
-				else if(keyboard1.keycode == 75){
+				else if(keycode == 75){
 					//k:down rotation  向下旋转
 					cam1.angleX += 1;
 				}
-				else if(keyboard1.keycode == 74){
+				else if(keycode == 74){
 					//j:left rotation  向左旋转
 					cam1.angleY += 1;
 				}
-				else if(keyboard1.keycode == 76){
+				else if(keycode == 76){
 					//l:right rotation 向右旋转
 					cam1.angleY -= 1;
 				}
-				else if(keyboard1.keycode == 78){
+				else if(keycode == 78){
 					//n:z-left rotation;  Z轴左旋
 					cam1.angleZ -= 1;
 				}
-				else if(keyboard1.keycode == 77){
+				else if(keycode == 77){
 					//m:z-right rotation; Z轴右旋
 					cam1.angleZ += 1;
 				}
-			}, 30);
+			}
+			
+			setInterval(function(){
+				if(  (new Date()).valueOf() - lastPressingTimeStamp > 500  ){
+					lastPressingKeyCode = 0;
+					lastPressingTimeStamp = (new Date()).valueOf();
+				}
+				else{
+					if(lastPressingKeyCode == 0){
+						return;
+					}
+					else{
+						UpdatePosition(lastPressingKeyCode);
+					}
+				}
+			}, 20);
 
 			/* 判断设备 */
 			if (IsPC() != true) {
