@@ -330,8 +330,9 @@
 			/* 4D顶点投影到2D顶点 */
 			{
 				/* 设定视口坐标参数 */
-				var zoom  = 200;  //画面放大倍数
-				var zfix  = 0.35; //设定Z轴变形程度(可根据屏幕情况调整)
+				var fovY = 60;
+				var fot = 1 / tand(fovY / 2);
+
 				/* 根据相机度数旋转顶点,把世界坐标旋转成相机坐标 */
 				var final = Matrix4X1timesMatrix4X4(new Matrix4X1(vector.x - camera.x, vector.y - camera.y, vector.z - camera.z, 1), camera.rotationMatrix);
 				var vecx  = final.m00;
@@ -345,12 +346,12 @@
 				/* 否则就将顶点从相机坐标投影到屏幕坐标 */
 				else{
 					/* Z轴变形修正 */
-					var x2d     = (vecx) / (vecz*zfix);
-					var y2d     = (vecy) / (vecz*zfix);
+					var x2d     = (vecx) / (vecz);
+					var y2d     = (vecy) / (vecz);
 
 					/* 拉伸放大屏幕坐标,形成视口坐标 */
-					var xScreen = (camera.screenWidth  / 2) + (x2d * zoom);
-					var yScreen = (camera.screenHeight / 2) + (y2d * zoom);
+					var xScreen = (camera.screenWidth  / 2) + (x2d * camera.screenHeight / 2 * fot);
+					var yScreen = (camera.screenHeight / 2) + (y2d * camera.screenHeight / 2 * fot);
 					return new Vector2D(xScreen, yScreen);
 				}
 			}
